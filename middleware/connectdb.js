@@ -5,7 +5,7 @@ async function connectdb() {
     const connection = await oracledb.getConnection ({
         user          : "EDUX",
         password      : '2122',
-        connectString : "Afzal/ORCLPDB"
+        connectString : "localhost/ORCLPDB"
     });
 
     const result = await connection.execute(
@@ -20,7 +20,11 @@ async function connectdb() {
 
     await connection.close();
 
+    console.log("running");
+    console.log(result.rows);
+
     return result.rows;
 }
+
 
 export default connectdb;
