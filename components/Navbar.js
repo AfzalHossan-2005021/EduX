@@ -5,8 +5,8 @@ import {Dropdown} from "flowbite-react";
 
 const Navbar = () => {
   return (
-    <nav className="bg-slate-700 border-gray-500 dark:border-gray-600 dark:bg-gray-900">
-      <div className="flex justify-between items-center max-w-screen-xl p-4 md:flex-row md:space-x-8">
+    <nav className="fixed top-0 left-0 right-0 z-10 border-gray-500 dark:border-gray-600 dark:bg-gray-900 bg-teal-500">
+      <div className="flex justify-between md:items-center mx-auto max-w-screen-xl p-4 md:flex-row md:space-x-8">
         <a href="/">
           <Image src={Logo} alt="Logor" width={100} height={50} />
         </a>

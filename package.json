@@ -9,22 +9,30 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@fontsource/roboto": "^5.0.8",
     "@headlessui/react": "^1.7.17",
     "@headlessui/tailwindcss": "^0.2.0",
     "@heroicons/react": "^2.0.18",
+    "@mui/icons-material": "^5.14.3",
+    "@mui/material": "^5.14.5",
+    "@mui/styled-engine-sc": "^5.12.0",
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.1",
     "eslint-config-next": "13.4.13",
     "flowbite": "^1.8.1",
     "flowbite-react": "^0.5.0",
+    "generic-pool": "^3.9.0",
     "next": "13.4.13",
     "oracledb": "^6.0.3",
     "popper.js": "^1.16.1",
-    "react": "18.2.0",
+    "react": "^17.0.0 || ^18.0.0",
     "react-bootstrap": "^2.8.0",
-    "react-dom": "18.2.0",
+    "react-dom": "^17.0.0 || ^18.0.0",
     "react-popper": "^2.3.0",
-    "react-scroll": "^1.8.9"
+    "react-scroll": "^1.8.9",
+    "styled-components": "^5.3.11"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.15",
@@ -33,5 +41,9 @@
     "eslint-plugin-react": "^7.33.2",
     "postcss": "^8.4.28",
     "tailwindcss": "^3.3.3"
+  },
+  "peerDependencies": {
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0"
   }
 }

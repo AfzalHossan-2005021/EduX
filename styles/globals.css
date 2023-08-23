@@ -28,15 +28,6 @@
     display: flex;
     justify-content: center;
   }
-  
-  /* base css */
-  body {
-    /* padding: 3rem; */
-  }
-  h3 {
-    /* margin: 1.5rem 0 .25em;
-    clear: both; */
-  }
   .parent {
     /* background: mediumpurple; */
     padding: 1rem
