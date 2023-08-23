@@ -1,24 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import Head from 'next/head'
+import React, {useEffect, useState} from 'react';
+import Head from 'next/head';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 export default function Home() {
-  const [Courses, setCourses] = useState([])
-  const [PopularCourses, setPopularCourses] = useState([])
+  const [Courses, setCourses] = useState([]);
+  const [PopularCourses, setPopularCourses] = useState([]);
   useEffect(() => {
     fetch('http://localhost:3000/api/top_rated_courses').then((a) => {
       return a.json();
     }).then((parsed) => {
       setCourses(parsed);
-    })
+    });
     fetch('http://localhost:3000/api/popular_courses').then((a) => {
       return a.json();
     }).then((parsed) => {
       setPopularCourses(parsed);
-    })
+    });
   }, []);
-
 
   return (
     <main>
@@ -26,7 +25,7 @@ export default function Home() {
         <Head>
           <title>EduX</title>
         </Head>
-        <Navbar />
+        <Navbar/>
         <div>
           <div className='parent'>
             <div className="container"><h1 className="text-3xl font-bold underline">Welcome to EduX</h1></div>
@@ -38,7 +37,7 @@ export default function Home() {
                 <p>Title: {course.title}</p>
                 <p>Rating : {course.rating}</p>
                 <p>Rank : {course.rank}</p>
-              </div>
+              </div>;
             })}
           </div>
           <div className='parent'>
@@ -49,12 +48,12 @@ export default function Home() {
                 <p>Title: {course.title}</p>
                 <p>Enroll : {course.student_count} students</p>
                 <p>Rank : {course.rank}</p>
-              </div>
+              </div>;
             })}
           </div>
         </div>
-        <Footer />
+        <Footer/>
       </div>
     </main>
-  )
+  );
 }
