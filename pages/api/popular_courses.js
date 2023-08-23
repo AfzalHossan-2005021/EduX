@@ -4,7 +4,7 @@ async function get_popular_courses() {
     const connection = await oracledb.getConnection({
         user: "EDUX",
         password: '2122',
-        connectString: "Afzal/ORCLPDB"
+        connectString: "localhost/ORCLPDB"
     });
 
     const result = await connection.execute(
