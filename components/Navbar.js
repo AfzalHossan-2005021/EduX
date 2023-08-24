@@ -15,6 +15,7 @@ const Navbar = () => {
         </a>
         </div>
         <ExploreDropDown />
+        <SearchBar setResults={setResults} />
         <LogIn_SignUp />
       </div>
     </nav>
@@ -79,6 +80,38 @@ function ExploreDropDown() {
         </div>
       </div>
     </Dropdown>
+  );
+}
+
+function SearchBar({ setResults }) {
+  const [input, setInput] = useState("");
+
+  const fetchData = (value) => {
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then((Response) => Response.json())
+      .then((json) => {
+        const results = json.filter((user) => {
+          return (value && user && user.name && user.name.toLowerCase().includes(value));
+        });
+        setResults(results);
+      });
+  };
+
+  const handleChange = (value) => {
+    setInput(value);
+    fetchData(value);
+  };
+
+  return (
+    <div className='bg-white w-2/5 h-10 rounded-lg shadow-lg px-0 flex items-center'>
+      <div className='pl-2'>
+        <FaSearch color='royalblue' size='25px' />
+      </div>
+      <div className='w-full'>
+        <input className='bg-transparent border-transparent h-full w-full text-xl ml-1.5 outline-none focus:border-blue-500'
+          placeholder='Type to search...' value={input} onChange={(e) => handleChange(e.target.value)} />
+      </div>
+    </div>
   );
 }
 
