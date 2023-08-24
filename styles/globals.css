@@ -5,16 +5,16 @@
 .float-left-child {
     float: left
   }
-  
-  
+    
   .inline-block-child {
     display: inline-block;
   }
   
-  
+
   .flex-parent {
     display: flex;
   }
+  
   .flex-child {
     flex: 1;
   }
@@ -28,10 +28,12 @@
     display: flex;
     justify-content: center;
   }
+  
   .parent {
-    /* background: mediumpurple; */
+    background: mediumpurple;
     padding: 1rem
   }
+  
   .child {
     border: 1px solid indigo;
     padding: 1rem

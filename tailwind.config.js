@@ -10,7 +10,11 @@ module.exports = {
       "./src/**/*.{js,ts,jsx,tsx,mdx}",
     ],
     theme: {
-      extend: {},
+      extend: {
+        padding: {
+          '448px': '448px',
+        }
+      },
     },
     plugins: [
       require("flowbite/plugin")
