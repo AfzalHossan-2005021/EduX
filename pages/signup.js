@@ -1,8 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
+import Head from 'next/head';
 import Navbar from '@/components/Navbar';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Footer from '@/components/Footer';
 
 export default function signup() {
   const [fullname, setFullname] = useState("");
@@ -46,8 +48,12 @@ export default function signup() {
 
   }
   return (
-    <section className="bg-gray-50 dark:bg-gray-900">
+<div>
+      <Head>
+        <title>EduX</title>
+      </Head>
       <Navbar />
+      <section className="bg-gray-50 dark:bg-gray-900">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -92,5 +98,7 @@ export default function signup() {
         </div>
       </div>
     </section>
+    <Footer />
+    </div>
   );
 }
