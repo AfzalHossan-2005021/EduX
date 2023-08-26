@@ -22,12 +22,12 @@ export default function Home() {
 
   return (
     <main>
-      <div>
+      <div className='flex-col'>
         <Head>
           <title>EduX</title>
         </Head>
+        <div className='flex-col'>
         <Navbar/>
-        <div>
           <div className='parent'>
             <div className="container"><h1 className="text-3xl font-bold underline">Welcome to EduX</h1></div>
             <div className="container"><h3>Explore and unlock your potential with EduX</h3></div>
@@ -52,8 +52,8 @@ export default function Home() {
               </div>;
             })}
           </div>
-        </div>
         <Footer/>
+        </div>
       </div>
     </main>
   );
