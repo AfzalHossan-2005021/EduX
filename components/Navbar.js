@@ -104,11 +104,11 @@ function SearchBar({ setResults }) {
   const [input, setInput] = useState("");
 
   const fetchData = (value) => {
-    fetch('https://jsonplaceholder.typicode.com/users')
+    fetch('http://localhost:3000/api/all_courses')
       .then((Response) => Response.json())
       .then((json) => {
-        const results = json.filter((user) => {
-          return (value && user && user.name && user.name.toLowerCase().includes(value));
+        const results = json.filter((course) => {
+          return (value && course && course.title && course.title.toLowerCase().includes(value));
         });
         setResults(results);
       });
@@ -138,7 +138,7 @@ function SearchResultsList({ results }) {
           return (
             <div key={id} className='py-5 px-2.5 hover:bg-zinc-600 text-sky-600'
               onClick={(e) => alert(`you clicked on {result}`)}>
-              {result.name}
+              {result.title}
             </div>
           );
         })
