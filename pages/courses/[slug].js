@@ -1,18 +1,28 @@
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
-import {useRouter} from 'next/router';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
-const course_page = () =>{
+const course_page = () => {
   const router = useRouter();
-  const {slug} = router.query;
-  console.log({slug});
+  const slug = router.query.slug;
+  const [Course, setCourse] = useState();
+  useEffect(() => {
+    fetch('http://localhost:3000/api/selected_course', {
+      method: 'POST',
+      body: JSON.stringify(<p>Course.{ slug }</p>)
+    }).then((a) => {
+      return a.json();
+    }).then((parsed) => {
+      setCourse(parsed);
+    });
+  }, []);
   return <>
-    <Navbar/>
     <section className="text-gray-600 body-font overflow-hidden">
       <div className="container px-5 py-24 mx-auto">
         <div className="lg:w-4/5 mx-auto flex-col">
           <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
-            <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">The Catcher in the Rye</h1>
+            <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{Course.title}</h1>
             <div className="flex mb-4">
               <span className="flex items-center">
                 <svg fill="currentColor" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 text-indigo-500" viewBox="0 0 24 24">
@@ -88,7 +98,6 @@ const course_page = () =>{
         </div>
       </div>
     </section>
-    <Footer/>
   </>;
 };
 

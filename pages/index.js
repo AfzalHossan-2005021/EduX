@@ -1,17 +1,15 @@
-import React, {useEffect, useState} from 'react';
 import Head from 'next/head';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import React, {useEffect, useState} from 'react';
 
 
 export default function Home() {
-  const [Courses, setCourses] = useState([]);
+  const [TopRatedCourses, setTopRatedCourses] = useState([]);
   const [PopularCourses, setPopularCourses] = useState([]);
   useEffect(() => {
     fetch('http://localhost:3000/api/top_rated_courses').then((a) => {
       return a.json();
     }).then((parsed) => {
-      setCourses(parsed);
+      setTopRatedCourses(parsed);
     });
     fetch('http://localhost:3000/api/popular_courses').then((a) => {
       return a.json();
@@ -27,12 +25,11 @@ export default function Home() {
           <title>EduX</title>
         </Head>
         <div className='flex-col'>
-        <Navbar/>
           <div className='parent'>
             <div className="container"><h1 className="text-3xl font-bold underline">Welcome to EduX</h1></div>
             <div className="container"><h3>Explore and unlock your potential with EduX</h3></div>
             <div><h1>Top rated courses</h1></div>
-            {Courses.map((course) => {
+            {TopRatedCourses.map((course) => {
               return <div key={course.c_id} className='child inline-block-child'>
                 <h2>Course ID : {course.c_id}</h2>
                 <p>Title: {course.title}</p>
@@ -52,7 +49,6 @@ export default function Home() {
               </div>;
             })}
           </div>
-        <Footer/>
         </div>
       </div>
     </main>

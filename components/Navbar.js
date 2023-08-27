@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import Link from 'next/link'
 import Image from 'next/image'
 import Logo from '../public/T_logo.png'
+import React, { useState } from 'react'
 import { FaSearch } from 'react-icons/fa'
 import { AiOutlineCaretUp, AiOutlineCaretDown } from 'react-icons/ai'
-import Link from 'next/link';
 
 const Navbar = () => {
   const [results, setResults] = useState([]);
