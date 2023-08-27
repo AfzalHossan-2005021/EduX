@@ -1,20 +1,18 @@
-import Footer from '@/components/Footer';
-import Navbar from '@/components/Navbar';
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
-const course_page = () => {
-  const router = useRouter();
-  const slug = router.query.slug;
-  const [Course, setCourse] = useState();
+export default function course_page ({slug}) {
+  const [Course, setCourse] = useState([])
   useEffect(() => {
     fetch('http://localhost:3000/api/selected_course', {
       method: 'POST',
-      body: JSON.stringify(<p>Course.{ slug }</p>)
+      body: JSON.stringify({slug}),
+      headers:{
+        'Content-Type': 'application/json'
+      }
     }).then((a) => {
       return a.json();
     }).then((parsed) => {
-      setCourse(parsed);
+      setCourse(parsed[0]);
     });
   }, []);
   return <>
@@ -101,4 +99,9 @@ const course_page = () => {
   </>;
 };
 
-export default course_page;
+
+export const getServerSideProps = async (context) => {
+  const {params} = context
+  const {slug} = params
+  return { props: { slug } }
+}

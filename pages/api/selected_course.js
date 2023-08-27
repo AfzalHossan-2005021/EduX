@@ -4,7 +4,8 @@ import get_selected_course_query from "@/db/get_selected_course_query";
 
 export default async function selected_course(req, res) {
 	const connection = await pool.acquire();
-    const title = req.body.title
+    const title = req.body.slug
+	// console.log(title)
 	try {
 		const result = await connection.execute(
             get_selected_course_query(title),
