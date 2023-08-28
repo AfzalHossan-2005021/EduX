@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import Link from 'next/link'
 import Image from 'next/image'
 import Logo from '../public/T_logo.png'
+import React, { useState } from 'react'
 import { FaSearch } from 'react-icons/fa'
 import { AiOutlineCaretUp, AiOutlineCaretDown } from 'react-icons/ai'
 
@@ -29,7 +30,7 @@ function ExploreDropDown() {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div className='absolute left-48 md:space-y-12'>
-      <button className='absolute bg-blue-600 hover:bg-blue-700 flex items-center w-32 h-10 shadow-xlr justify-between p-2 font-bold text-lg rounded-l-lg tracking-wider border-transparent border-4 duration-300 active:text-white active:border-white'
+      <button  className='absolute bg-blue-600 hover:bg-blue-700 flex items-center w-32 h-10 shadow-xlr justify-between p-2 font-bold text-lg rounded-l-lg tracking-wider border-transparent border-4 duration-5 active:text-white active:border-white'
         onClick={() => setIsOpen((prev) => !prev)}>
         Explore
         {
@@ -104,11 +105,11 @@ function SearchBar({ setResults }) {
   const [input, setInput] = useState("");
 
   const fetchData = (value) => {
-    fetch('https://jsonplaceholder.typicode.com/users')
+    fetch('http://localhost:3000/api/all_courses')
       .then((Response) => Response.json())
       .then((json) => {
-        const results = json.filter((user) => {
-          return (value && user && user.name && user.name.toLowerCase().includes(value));
+        const results = json.filter((course) => {
+          return (value && course && course.title && course.title.toLowerCase().includes(value));
         });
         setResults(results);
       });
@@ -136,10 +137,11 @@ function SearchResultsList({ results }) {
       {
         results.map((result, id) => {
           return (
-            <div key={id} className='py-5 px-2.5 hover:bg-zinc-600 text-sky-600'
-              onClick={(e) => alert(`you clicked on {result}`)}>
-              {result.name}
-            </div>
+            <Link href={`/courses/${result.title}`}>
+              <div key={id} className='py-5 px-2.5 hover:bg-zinc-600 text-sky-600'>
+                {result.title}
+              </div>
+            </Link>
           );
         })
       }

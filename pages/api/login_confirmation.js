@@ -1,19 +1,21 @@
 const oracledb = require('oracledb');
+import pool from '@/middleware/connectdb';
 
 async function get_emai_password() {
-    const connection = await oracledb.getConnection({
-        user: "EDUX",
-        password: '2122',
-        connectString: "localhost/ORCLPDB"
-    });
-
-    const result = await connection.execute(
-        `SELECT "u"."email","u"."password","u"."u_id"
-        FROM "Users" "u"`,
-        [], { outFormat: oracledb.OUT_FORMAT_OBJECT });
-    await connection.close();
-    console.log(result);
-    return result.rows;
+    const connection = await pool.acquire();
+    try {
+        const result = await connection.execute(
+            `SELECT "u"."email","u"."password","u"."u_id"
+            FROM "Users" "u"`,
+            [],
+            { outFormat: oracledb.OUT_FORMAT_OBJECT }
+        );
+        return result.rows;
+    } catch (error) {
+        res.status(500).json({ error: 'An error occurred' });
+    } finally {
+        pool.release(connection);
+    }
 }
 
 export default async function handler(req, res) {
