@@ -1,11 +1,12 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import Logo from '../public/T_logo.png'
-import React, { useState } from 'react'
 import { FaSearch } from 'react-icons/fa'
+import React, { useEffect, useRef, useState } from 'react'
 import { AiOutlineCaretUp, AiOutlineCaretDown } from 'react-icons/ai'
 
 const Navbar = () => {
+  let searchDivRef = useRef();
   const [results, setResults] = useState([]);
   return (
     <nav className="fixed top-0 left-0 right-0 h-16 bg-gradient-to-r from-slate-200 to-slate-400 shadow-2xl">
@@ -15,10 +16,10 @@ const Navbar = () => {
             <Image src={Logo} alt="Logor" height='50' />
           </a>
         </div>
-        <ExploreDropDown />
-        <div className='w-2/5 md:space-y-12'>
-          <SearchBar setResults={setResults} />
-          <SearchResultsList results={results} />
+        <ExploreDropDown/>
+        <div className='w-2/5 md:space-y-12' ref={searchDivRef}>
+          <SearchBar setResults={setResults} containerRef = {searchDivRef}/>
+          <SearchResultsList results={results}/>
         </div>
         <LogIn_SignUp />
       </div>
@@ -28,6 +29,12 @@ const Navbar = () => {
 
 function ExploreDropDown() {
   const [isOpen, setIsOpen] = useState(false);
+  useEffect(() => {
+    let handler = () => {
+      setIsOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+  });
   return (
     <div className='absolute left-48 md:space-y-12'>
       <button  className='absolute bg-blue-600 hover:bg-blue-700 flex items-center w-32 h-10 shadow-xlr justify-between p-2 font-bold text-lg rounded-l-lg tracking-wider border-transparent border-4 duration-5 active:text-white active:border-white'
@@ -101,8 +108,16 @@ function ExploreDropDown() {
   );
 }
 
-function SearchBar({ setResults }) {
+function SearchBar({ setResults, containerRef }) {
   const [input, setInput] = useState("");
+  useEffect(() => {
+    let handler = (e) => {
+      if(!containerRef.current.contains(e.target)){
+        handleChange("");
+      }
+    };
+    document.addEventListener("mousedown", handler);
+  });
 
   const fetchData = (value) => {
     fetch('http://localhost:3000/api/all_courses')
@@ -133,7 +148,7 @@ function SearchBar({ setResults }) {
 
 function SearchResultsList({ results }) {
   return (
-    <div className='relative left-[310px] w-full bg-white flex-col shadow-md max-h-80 overflow-auto'>
+    <div className='relative left-[310px] w-[498px] bg-white flex-col shadow-md max-h-80 overflow-auto'>
       {
         results.map((result, id) => {
           return (

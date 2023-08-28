@@ -4,7 +4,7 @@ const get_top_rated_courses =
 	ON "c1"."rating" < "c2"."rating"
 	GROUP BY "c1"."c_id", "c1"."title", "c1"."rating"
 	ORDER BY "rank"
-	FETCH NEXT 2 ROWS ONLY`
+	FETCH NEXT 3 ROWS ONLY`
 ;
 
 export { get_top_rated_courses };
