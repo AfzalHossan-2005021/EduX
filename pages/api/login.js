@@ -1,8 +1,9 @@
 const oracledb = require('oracledb');
 import pool from '@/middleware/connectdb';
 
-async function get_emai_password() {
+async function confirm_login(req, res) {
     const connection = await pool.acquire();
+    const {email, password} = req.body;
     try {
         const result = await connection.execute(
             `SELECT "u"."email","u"."password","u"."u_id"
@@ -20,7 +21,7 @@ async function get_emai_password() {
 
 export default async function handler(req, res) {
     try {
-        const result = await get_emai_password();
+        const result = await confirm_login();
         res.status(200).json(result)
     } catch (err) {
         res.status(500).json({ error: 'failed to load data' })

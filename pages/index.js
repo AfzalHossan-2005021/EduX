@@ -1,8 +1,8 @@
 import Head from 'next/head';
+import Link from 'next/link';
 import Image from 'next/image'
 import WallPic from '../public/edux_wall.png'
 import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
 
 
 export default function Home() {
@@ -23,7 +23,7 @@ export default function Home() {
 
   return (
     <main>
-      <div>
+      <div className='bg-slate-100'>
         <Head>
           <title>EduX</title>
         </Head>
@@ -39,27 +39,31 @@ export default function Home() {
               </p>
             </div>
             <div>
-              <div className='ps-1 pb-3'><h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Most Popular courses</h1></div>
+              <div className='ps-1 pb-3'>
+                <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Most Popular courses</h1>
+              </div>
               <div className="flex flex-wrap -m-4">
                 {TopRatedCourses.map((course) => {
                   return <div className="xl:w-1/3 md:w-1/2 p-4 ">
                     <Link href={`/courses/${course.title}`}>
-                      <div className="border border-gray-200 p-6 rounded-lg hover:shadow-md">
+                      <div className="border border-gray-200 p-6 rounded-lg hover:shadow-md hover:shadow-slate-500 hover:bg-white">
                         <h2 className="text-lg text-gray-900 font-medium title-font mb-2">{course.title}</h2>
-                        <p className="leading-relaxed text-base">Fingerstache flexitarian street art 8-bit waist co, subway tile poke farm.</p>
+                        <p className="leading-relaxed text-base">Rating : {course.rating} / 5</p>
                       </div>
                     </Link>
                   </div>;
                 })}
               </div>
-              <div className='pt-12 ps-1 pb-3'><h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Top Rated Courses</h1></div>
+              <div className='pt-12 ps-1 pb-3'>
+                <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Top Rated Courses</h1>
+              </div>
               <div className="flex flex-wrap -m-4">
                 {PopularCourses.map((course) => {
                   return <div className="xl:w-1/3 md:w-1/2 p-4 ">
                     <Link href={`/courses/${course.title}`}>
-                      <div className="border border-gray-200 p-6 rounded-lg hover:shadow-md">
+                      <div className="border border-gray-200 p-6 rounded-lg hover:shadow-md hover:shadow-slate-500 hover:bg-white">
                         <h2 className="text-lg text-gray-900 font-medium title-font mb-2">{course.title}</h2>
-                        <p className="leading-relaxed text-base">Fingerstache flexitarian street art 8-bit waist co, subway tile poke farm.</p>
+                        <p className="leading-relaxed text-base">Total {course.student_count} students enrolled</p>
                       </div>
                     </Link>
                   </div>;

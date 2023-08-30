@@ -4,10 +4,10 @@ import '@/styles/globals.css'
 
 export default function App({ Component, pageProps }) {
   return <div className='flex-col'>
-    <Navbar/>
+    <Navbar />
     <div className='flex-col mt-16'>
-    <Component {...pageProps} />
+      <Component {...pageProps} />
     </div>
-    <Footer/>
+    <Footer />
   </div>
 }
