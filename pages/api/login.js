@@ -1,30 +1,32 @@
+var CryptoJS = require('crypto-js');
 const oracledb = require('oracledb');
-import pool from '@/middleware/connectdb';
-
-async function confirm_login(req, res) {
-    const connection = await pool.acquire();
-    const {email, password} = req.body;
-    try {
-        const result = await connection.execute(
-            `SELECT "u"."email","u"."password","u"."u_id"
-            FROM "Users" "u"`,
-            [],
-            { outFormat: oracledb.OUT_FORMAT_OBJECT }
-        );
-        return result.rows;
-    } catch (error) {
-        res.status(500).json({ error: 'An error occurred' });
-    } finally {
-        pool.release(connection);
-    }
-}
+import pool from "../../middleware/connectdb"
 
 export default async function handler(req, res) {
-    try {
-        const result = await confirm_login();
-        res.status(200).json(result)
-    } catch (err) {
-        res.status(500).json({ error: 'failed to load data' })
+    if (req.method == 'POST') {
+        const connection = await pool.acquire();
+        const { email, password } = req.body;
+        try {
+            const result = await connection.execute(
+                `BEGIN
+                    :message := CHECK_USER(:email, :password);
+                END;`,
+                {
+                    email: email,
+                    password: CryptoJS.AES.encrypt(password, 'dbl project').toString(),
+                    message: { dir: oracledb.BIND_OUT, type: oracledb.STRING, maxSize: 100 }
+                },
+                { outFormat: oracledb.OUT_FORMAT_OBJECT }
+            );
+            res.status(200).json(result.outBinds);
+            console.log(result.outBinds)
+        } catch (error) {
+            res.status(500).json({ message: 'An error occurred.' });
+        } finally {
+            pool.release(connection);
+        }
     }
-    
+    else {
+        res.status(400).json({ message: 'This method is not allowed.' })
+    }
 }
