@@ -4,32 +4,48 @@ import Head from 'next/head';
 import { useRouter } from 'next/navigation';
 
 export default function login() {
+  const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(" ");
-  const [Users, setUsers] = useState([]);
-  const router = useRouter();
+  const [isErrorOccured, setIsErrorOccured] = useState(false);
 
   const loadInfo = async (event) => {
     event.preventDefault();
     if (!email || !password) {
       setError("All fields are necessary");
+      setIsErrorOccured(true);
     }
-
-    await fetch('http://localhost:3000/api/login').then((a) => {
-      return a.json();
-    }).then((parsed) => {
-      setUsers(parsed);
-    });
-
-    Users.forEach((element) => {
-      if (element.email == email && element.password == password) {
-        router.push("/my_profile");
+    else {
+      event.preventDefault();
+      const data = { email, password };
+      let req = await fetch('http://localhost:3000/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      let res = await req.json()
+      let { message } = res
+      if (message == "Valid user") {
+        router.replace('/my_profile')
       }
-    });
-    setError("Wrorg password or email");
-    console.log(email, password);
+      else {
+        setIsErrorOccured(true)
+        setError(message)
+        setEmail('')
+        setPassword('')
+      }
+    }
   }
+  useEffect(() => {
+    let handler = () => {
+      if (isErrorOccured) {
+        setIsErrorOccured(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+  });
 
   return (
     <div>
@@ -44,6 +60,13 @@ export default function login() {
           <div className='absolute inset-1 bg-gray-800 rounded-tr-3xl rounded-bl-3xl z-10 p-5'>
             <form className='flex-col space-y-8'>
               <h2 className='text-xl font-semibold text-lime-500 text-center'>Log in</h2>
+              {
+                isErrorOccured && (
+                  <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    <span class="block sm:inline">{error}</span>
+                  </div>
+                )
+              }
               <div className='relative flex flex-col'>
                 <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} autoFocus placeholder='' className='relative z-10 border-0 border-lime-500 h-10 bg-transparent text-gray-100 outline-none px-2 peer' />
                 <i className='bg-lime-500 rounded w-full bottom-0 left-0 absolute h-10 -z-10 duration-500 origin-bottom transform peer-focus:h-10 peer-placeholder-shown:h-[0.5px]' />
