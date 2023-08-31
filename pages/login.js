@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
 import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
+import secureLocalStorage from 'react-secure-storage';
 
-export default function login({ isLoggedIn, setIsLoggedIn }) {
-
+export default function login() {
   const router = useRouter();
 
   const [email, setEmail] = useState("");
@@ -27,10 +27,10 @@ export default function login({ isLoggedIn, setIsLoggedIn }) {
         body: JSON.stringify(data)
       })
       let res = await req.json()
-      let { message } = res
+      let { message, u_id } = res
       if (message == "Valid user") {
+        secureLocalStorage.setItem('u_id', u_id);
         router.replace('/my_profile')
-        setIsLoggedIn(true)
       }
       else {
         setIsErrorOccured(true)
@@ -40,17 +40,17 @@ export default function login({ isLoggedIn, setIsLoggedIn }) {
       }
     }
   }
-  let handler = () => {
-    if (isErrorOccured) {
-      setIsErrorOccured(false);
-    }
-  };
   useEffect(() => {
-    document.addEventListener("mousedown", handler);
-    if (isLoggedIn) {
+    if (secureLocalStorage.getItem('u_id')) {
       router.replace('/my_profile')
     }
-  });
+    let handler = () => {
+      if (isErrorOccured) {
+        setIsErrorOccured(false);
+      }
+    };
+    document.addEventListener("click", handler);
+  },[isErrorOccured]);
 
   return (
     <div>
