@@ -3,7 +3,8 @@ import Link from 'next/link';
 import Head from 'next/head';
 import { useRouter } from 'next/navigation';
 
-export default function login() {
+export default function login({ isLoggedIn, setIsLoggedIn }) {
+
   const router = useRouter();
 
   const [email, setEmail] = useState("");
@@ -11,7 +12,7 @@ export default function login() {
   const [error, setError] = useState(" ");
   const [isErrorOccured, setIsErrorOccured] = useState(false);
 
-  const loadInfo = async (event) => {
+  const checkUser = async (event) => {
     event.preventDefault();
     if (!email || !password) {
       setError("All fields are necessary");
@@ -29,6 +30,7 @@ export default function login() {
       let { message } = res
       if (message == "Valid user") {
         router.replace('/my_profile')
+        setIsLoggedIn(true)
       }
       else {
         setIsErrorOccured(true)
@@ -38,13 +40,16 @@ export default function login() {
       }
     }
   }
+  let handler = () => {
+    if (isErrorOccured) {
+      setIsErrorOccured(false);
+    }
+  };
   useEffect(() => {
-    let handler = () => {
-      if (isErrorOccured) {
-        setIsErrorOccured(false);
-      }
-    };
     document.addEventListener("mousedown", handler);
+    if (isLoggedIn) {
+      router.replace('/my_profile')
+    }
   });
 
   return (
@@ -89,7 +94,7 @@ export default function login() {
                 <a href="/forgot-password" className="text-lime-500 text-sm font-medium text-primary-600 hover:underline">Forgot password?</a>
               </div>
               <div className='flex justify-center'>
-                <button type="submit" onClick={loadInfo} className="border-solid border-lime-500 border-2 hover:bg-lime-500 rounded-md px-10 py-1.5 tracking-widest font-semibold text-white items-center">Log In</button>
+                <button type="submit" onClick={checkUser} className="border-solid border-lime-500 border-2 hover:bg-lime-500 rounded-md px-10 py-1.5 tracking-widest font-semibold text-white items-center">Log In</button>
               </div>
               <div>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">Don’t have an account yet? <Link href='/signup'>Sign up</Link></p>

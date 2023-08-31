@@ -3,9 +3,10 @@ import Image from 'next/image'
 import Logo from '../public/T_logo.png'
 import { FaSearch } from 'react-icons/fa'
 import React, { useEffect, useRef, useState } from 'react'
-import { AiOutlineCaretUp, AiOutlineCaretDown } from 'react-icons/ai'
+import { AiOutlineCaretUp, AiOutlineCaretDown, AiOutlineShoppingCart, AiOutlineUser } from 'react-icons/ai'
 
-const Navbar = () => {
+
+const Navbar = ({ isLoggedIn }) => {
   let searchDivRef = useRef();
   const [results, setResults] = useState([]);
   return (
@@ -21,7 +22,18 @@ const Navbar = () => {
           <SearchBar setResults={setResults} containerRef={searchDivRef} />
           <SearchResultsList results={results} />
         </div>
-        <LogIn_SignUp />
+        <div className='flex space-x-5 pr-5'>
+          <button> <AiOutlineShoppingCart className='text-4xl' /> </button>
+          {
+            isLoggedIn && <LogIn_SignUp />
+          }
+          {
+            !isLoggedIn &&
+            <div className='space-x-5'>
+              <button> <AiOutlineUser className='text-4xl' /></button>
+            </div>
+          }
+        </div>
       </div>
     </nav>
   );
@@ -29,12 +41,6 @@ const Navbar = () => {
 
 function ExploreDropDown() {
   const [isOpen, setIsOpen] = useState(false);
-  // useEffect(() => {
-  //   let handler = () => {
-  //     setIsOpen(false);
-  //   };
-  //   document.addEventListener("mousedown", handler);
-  // });
   return (
     <div className='absolute left-48 md:space-y-12'>
       <button className='absolute bg-blue-600 hover:bg-blue-700 flex items-center w-32 h-10 shadow-xlr justify-between p-2 font-bold text-lg rounded-l-lg tracking-wider border-transparent border-4 duration-5 group active:text-white active:border-white'
@@ -50,16 +56,6 @@ function ExploreDropDown() {
       </button>
       {
         isOpen && (
-          // <div className='bg-blue-400 absolute top-20 flex flex-col items-start rounded-lg p-2 w-full'>
-          //   {
-          //     list.map((item, i) => {
-          //       <div className='flex w-full justify-between hover:bg-blue-300 cursor-pointer rounded-r-lg border-l-transparent hover:border-l-white border-l-4'>
-          //         <h3>{item.city}</h3>
-          //         <h3>{item.emotion}</h3>
-          //       </div>
-          //     })
-          //   }
-          // </div>
           <div className='relative group-focus:block bg-white flex shadow-xl'>
             <div className='column'>
               <a href="#" className="hover:bg-blue-200 block p-3">
@@ -166,8 +162,8 @@ function SearchResultsList({ results }) {
 
 function LogIn_SignUp() {
   return (
-    <div className='absolute left-[840px] flex md:space-x-5'>
-      <div className='md:pl-[448px] sm: pl-16'>
+    <div className='flex space-x-5'>
+      <div>
         <a href="/login">
           <button className="bg-blue-600 hover:bg-blue-700 font-semibold text-white items-center w-20 h-10 rounded-lg shadow-xl transform hover:scale-110 motion-reduce:transform-none">Log In</button>
         </a>
@@ -179,6 +175,10 @@ function LogIn_SignUp() {
       </div>
     </div>
   );
+}
+
+function Cart() {
+  <button> cart </button>
 }
 
 export default Navbar;

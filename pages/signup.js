@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
-export default function signup() {
+export default function signup({ isLoggedIn, setIsLoggedIn }) {
   let router = useRouter()
 
   const [name, setName] = useState("");
@@ -35,6 +35,7 @@ export default function signup() {
       let { message } = res
       if (message == "Successful") {
         router.replace('/my_profile')
+        setIsLoggedIn(true)
       }
       else {
         setIsErrorOccured(true)
@@ -55,6 +56,9 @@ export default function signup() {
       }
     };
     document.addEventListener("mousedown", handler);
+    if(isLoggedIn){
+      router.replace('/my_profile')
+    }
   });
 
   return (
