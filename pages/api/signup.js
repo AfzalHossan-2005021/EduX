@@ -1,4 +1,3 @@
-var CryptoJS = require('crypto-js');
 const oracledb = require('oracledb');
 import pool from "../../middleware/connectdb"
 
@@ -15,7 +14,7 @@ export default async function handler(req, res) {
                 {
                     name: name,
                     email: email,
-                    password: CryptoJS.AES.encrypt(password, 'dblproject').toString(),
+                    password: password,
                     dob: dob,
                     message: { dir: oracledb.BIND_OUT, type: oracledb.STRING, maxSize: 100 }
                 },
