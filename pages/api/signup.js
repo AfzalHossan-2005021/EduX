@@ -15,7 +15,7 @@ export default async function handler(req, res) {
                 {
                     name: name,
                     email: email,
-                    password: CryptoJS.AES.encrypt(password, 'dbl project').toString(),
+                    password: CryptoJS.AES.encrypt(password, 'dblproject').toString(),
                     dob: dob,
                     message: { dir: oracledb.BIND_OUT, type: oracledb.STRING, maxSize: 100 }
                 },

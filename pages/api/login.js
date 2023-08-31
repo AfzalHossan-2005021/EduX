@@ -13,7 +13,7 @@ export default async function handler(req, res) {
                 END;`,
                 {
                     email: email,
-                    password: CryptoJS.AES.encrypt(password, 'dbl project').toString(),
+                    password: CryptoJS.AES.encrypt(password, 'dblproject').toString(),
                     message: { dir: oracledb.BIND_OUT, type: oracledb.STRING, maxSize: 100 }
                 },
                 { outFormat: oracledb.OUT_FORMAT_OBJECT }
