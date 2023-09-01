@@ -1,14 +1,16 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import Logo from '../public/T_logo.png'
-import React, { useState } from 'react'
 import { FaSearch } from 'react-icons/fa'
-import { AiOutlineCaretUp, AiOutlineCaretDown } from 'react-icons/ai'
+import React, { useEffect, useRef, useState } from 'react'
+import { AiOutlineCaretUp, AiOutlineCaretDown, AiOutlineShoppingCart, AiOutlineUser } from 'react-icons/ai'
 
-const Navbar = () => {
+
+const Navbar = ({ isLoggedIn }) => {
+  let searchDivRef = useRef();
   const [results, setResults] = useState([]);
   return (
-    <nav className="fixed top-0 left-0 right-0 h-16 bg-gradient-to-r from-slate-200 to-slate-400 shadow-2xl">
+    <nav className="fixed top-0 left-0 right-0 h-16 bg-gradient-to-r from-slate-200 to-slate-400 shadow-2xl z-20">
       <div className="flex h-full p-3 md:space-x-5 justify-between">
         <div className='absolute'>
           <a href="/">
@@ -16,11 +18,22 @@ const Navbar = () => {
           </a>
         </div>
         <ExploreDropDown />
-        <div className='w-2/5 md:space-y-12'>
-          <SearchBar setResults={setResults} />
+        <div className='w-2/5 md:space-y-12' ref={searchDivRef}>
+          <SearchBar setResults={setResults} containerRef={searchDivRef} />
           <SearchResultsList results={results} />
         </div>
-        <LogIn_SignUp />
+        <div className='flex space-x-5 pr-5'>
+          <button> <AiOutlineShoppingCart className='text-4xl' /> </button>
+          {
+            isLoggedIn && <LogIn_SignUp />
+          }
+          {
+            !isLoggedIn &&
+            <div className='space-x-5'>
+              <button> <AiOutlineUser className='text-4xl' /></button>
+            </div>
+          }
+        </div>
       </div>
     </nav>
   );
@@ -30,7 +43,7 @@ function ExploreDropDown() {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div className='absolute left-48 md:space-y-12'>
-      <button  className='absolute bg-blue-600 hover:bg-blue-700 flex items-center w-32 h-10 shadow-xlr justify-between p-2 font-bold text-lg rounded-l-lg tracking-wider border-transparent border-4 duration-5 active:text-white active:border-white'
+      <button className='absolute bg-blue-600 hover:bg-blue-700 flex items-center w-32 h-10 shadow-xlr justify-between p-2 font-bold text-lg rounded-l-lg tracking-wider border-transparent border-4 duration-5 group active:text-white active:border-white'
         onClick={() => setIsOpen((prev) => !prev)}>
         Explore
         {
@@ -43,32 +56,22 @@ function ExploreDropDown() {
       </button>
       {
         isOpen && (
-          // <div className='bg-blue-400 absolute top-20 flex flex-col items-start rounded-lg p-2 w-full'>
-          //   {
-          //     list.map((item, i) => {
-          //       <div className='flex w-full justify-between hover:bg-blue-300 cursor-pointer rounded-r-lg border-l-transparent hover:border-l-white border-l-4'>
-          //         <h3>{item.city}</h3>
-          //         <h3>{item.emotion}</h3>
-          //       </div>
-          //     })
-          //   }
-          // </div>
-          <div className='relative bg-white flex shadow-xl'>
+          <div className='relative group-focus:block bg-white flex shadow-xl'>
             <div className='column'>
               <a href="#" className="hover:bg-blue-200 block p-3">
-                <div className="font-semibold">Online Stores</div>
+                <div className="font-semibold">Information Technology</div>
                 <span className="text-sm text-gray-500 dark:text-gray-400">
                   Connect with third-party tools that you are already using.
                 </span>
               </a>
               <a href="#" className="hover:bg-blue-200 block p-3">
-                <div className="font-semibold">Segmentation</div>
+                <div className="font-semibold">Science and Engineering</div>
                 <span className="text-sm text-gray-500 dark:text-gray-400">
                   Connect with third-party tools that you are already using.
                 </span>
               </a>
               <a href="#" className="hover:bg-blue-200 block p-3">
-                <div className="font-semibold">Marketing CRM</div>
+                <div className="font-semibold">Mathematics and Logic</div>
                 <span className="text-sm text-gray-500 dark:text-gray-400">
                   Connect with third-party tools that you are already using.
                 </span>
@@ -76,19 +79,19 @@ function ExploreDropDown() {
             </div>
             <div className='column'>
               <a href="#" className="hover:bg-blue-200 block p-3">
-                <div className="font-semibold">Online Stores</div>
+                <div className="font-semibold">Arts and Humanities</div>
                 <span className="text-sm text-gray-500 dark:text-gray-400">
                   Connect with third-party tools that you are already using.
                 </span>
               </a>
               <a href="#" className="hover:bg-blue-200 block p-3">
-                <div className="font-semibold">Segmentation</div>
+                <div className="font-semibold">Social Science</div>
                 <span className="text-sm text-gray-500 dark:text-gray-400">
                   Connect with third-party tools that you are already using.
                 </span>
               </a>
               <a href="#" className="hover:bg-blue-200 block p-3">
-                <div className="font-semibold">Marketing CRM</div>
+                <div className="font-semibold">Language Learning</div>
                 <span className="text-sm text-gray-500 dark:text-gray-400">
                   Connect with third-party tools that you are already using.
                 </span>
@@ -101,8 +104,16 @@ function ExploreDropDown() {
   );
 }
 
-function SearchBar({ setResults }) {
+function SearchBar({ setResults, containerRef }) {
   const [input, setInput] = useState("");
+  useEffect(() => {
+    let handler = (e) => {
+      if (!containerRef.current.contains(e.target)) {
+        handleChange("");
+      }
+    };
+    document.addEventListener("mousedown", handler);
+  });
 
   const fetchData = (value) => {
     fetch('http://localhost:3000/api/all_courses')
@@ -133,12 +144,12 @@ function SearchBar({ setResults }) {
 
 function SearchResultsList({ results }) {
   return (
-    <div className='relative left-[310px] w-full bg-white flex-col shadow-md max-h-80 overflow-auto'>
+    <div className='relative left-[308px] w-[495px] bg-white flex-col shadow-md max-h-80 overflow-auto'>
       {
         results.map((result, id) => {
           return (
             <Link href={`/courses/${result.title}`}>
-              <div key={id} className='py-5 px-2.5 hover:bg-zinc-600 text-sky-600'>
+              <div key={id} className='py-5 px-2 hover:bg-zinc-300 text-sky-600'>
                 {result.title}
               </div>
             </Link>
@@ -151,19 +162,23 @@ function SearchResultsList({ results }) {
 
 function LogIn_SignUp() {
   return (
-    <div className='absolute left-[840px] flex md:space-x-5'>
-      <div className='md:pl-[448px] sm: pl-16'>
+    <div className='flex space-x-5'>
+      <div>
         <a href="/login">
-          <button className="bg-blue-600 hover:bg-blue-700 font-semibold text-white items-center w-20 h-10 rounded-lg shadow-xl">Log In</button>
+          <button className="bg-blue-600 hover:bg-blue-700 font-semibold text-white items-center w-20 h-10 rounded-lg shadow-xl transform hover:scale-110 motion-reduce:transform-none">Log In</button>
         </a>
       </div>
       <div>
         <a href="/signup">
-          <button className="bg-blue-600 hover:bg-blue-700 font-semibold text-white items-center w-20 h-10 rounded-lg shadow-xl">Sign Up</button>
+          <button className="bg-blue-600 hover:bg-blue-700 font-semibold text-white items-center w-20 h-10 rounded-lg shadow-xl transform hover:scale-110 motion-reduce:transform-none">Sign Up</button>
         </a>
       </div>
     </div>
   );
+}
+
+function Cart() {
+  <button> cart </button>
 }
 
 export default Navbar;

@@ -1,5 +1,8 @@
 import Head from 'next/head';
-import React, {useEffect, useState} from 'react';
+import Link from 'next/link';
+import Image from 'next/image'
+import WallPic from '../public/edux_wall.png'
+import React, { useEffect, useState } from 'react';
 
 
 export default function Home() {
@@ -20,36 +23,55 @@ export default function Home() {
 
   return (
     <main>
-      <div className='flex-col'>
+      <div className='bg-slate-100'>
         <Head>
           <title>EduX</title>
         </Head>
-        <div className='flex-col'>
-          <div className='parent'>
-            <div className="container"><h1 className="text-3xl font-bold underline">Welcome to EduX</h1></div>
-            <div className="container"><h3>Explore and unlock your potential with EduX</h3></div>
-            <div><h1>Top rated courses</h1></div>
-            {TopRatedCourses.map((course) => {
-              return <div key={course.c_id} className='child inline-block-child'>
-                <h2>Course ID : {course.c_id}</h2>
-                <p>Title: {course.title}</p>
-                <p>Rating : {course.rating}</p>
-                <p>Rank : {course.rank}</p>
-              </div>;
-            })}
+        <section className="text-gray-600 body-font">
+          <div>
+            <Image src={WallPic}></Image>
           </div>
-          <div className='parent'>
-            <div><h1>Most Popular courses</h1></div>
-            {PopularCourses.map((course) => {
-              return <div key={course.c_id} className='child inline-block-child'>
-                <h2>Course ID : {course.c_id}</h2>
-                <p>Title: {course.title}</p>
-                <p>Enroll : {course.student_count} students</p>
-                <p>Rank : {course.rank}</p>
-              </div>;
-            })}
+          <div className="flex-col container px-5 py-10 mx-auto">
+            <div className="flex flex-wrap w-full mb-20 flex-col items-center text-center">
+              <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Explore and unlock your potential with EduX</h1>
+              <p className="lg:w-1/2 w-full leading-relaxed text-gray-500">
+                Welcome to EduX, your gateway to a world of limitless learning and growth. EduX offers a diverse range of online courses and resources to suit individual learning journey. Join us in embracing the future of education, where knowledge is accessible anytime, anywhere.
+              </p>
+            </div>
+            <div>
+              <div className='ps-1 pb-3'>
+                <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Most Popular courses</h1>
+              </div>
+              <div className="flex flex-wrap -m-4">
+                {TopRatedCourses.map((course) => {
+                  return <div className="xl:w-1/3 md:w-1/2 p-4 ">
+                    <Link href={`/courses/${course.title}`}>
+                      <div className="border border-gray-200 p-6 rounded-lg hover:shadow-md hover:shadow-slate-500 hover:bg-white">
+                        <h2 className="text-lg text-gray-900 font-medium title-font mb-2">{course.title}</h2>
+                        <p className="leading-relaxed text-base">Rating : {course.rating} / 5</p>
+                      </div>
+                    </Link>
+                  </div>;
+                })}
+              </div>
+              <div className='pt-12 ps-1 pb-3'>
+                <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Top Rated Courses</h1>
+              </div>
+              <div className="flex flex-wrap -m-4">
+                {PopularCourses.map((course) => {
+                  return <div className="xl:w-1/3 md:w-1/2 p-4 ">
+                    <Link href={`/courses/${course.title}`}>
+                      <div className="border border-gray-200 p-6 rounded-lg hover:shadow-md hover:shadow-slate-500 hover:bg-white">
+                        <h2 className="text-lg text-gray-900 font-medium title-font mb-2">{course.title}</h2>
+                        <p className="leading-relaxed text-base">Total {course.student_count} students enrolled</p>
+                      </div>
+                    </Link>
+                  </div>;
+                })}
+              </div>
+            </div>
           </div>
-        </div>
+        </section>
       </div>
     </main>
   );
