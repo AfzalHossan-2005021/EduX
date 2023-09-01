@@ -1,4 +1,3 @@
-//import React from 'react';
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
@@ -6,19 +5,30 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useRouter } from 'next/navigation';
 
+
 export default function login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(" ");
   const [Users, setUsers] = useState([]);
+  const [userId, setUserId] = useState();
+  
   const router = useRouter();
 
   console.log("email :", email);
   console.log("password :", password);
+  useEffect(() => {
+    fetch('http://localhost:3000/api/login_confirmation').then((a) => {
+       return a.json();
+     }).then((parsed) => {
+       setUsers(parsed);
+     });
+   }, []);
 
   const loadInfo = async (event) => {
     event.preventDefault();
     console.log("kdbsdjhbjsdh");
+    
 
     const loadd = {
       email,
@@ -30,17 +40,20 @@ export default function login() {
       setError("All fields are necessary");
     }
 
-
-
-    await fetch('http://localhost:3000/api/login_confirmation').then((a) => {
-      return a.json();
-    }).then((parsed) => {
-      setUsers(parsed);
-    });
-
     console.log(Users);
-    Users.forEach((element) => {
+    Users.forEach(async (element) => {
       if (element.email == email && element.password == password) {
+        console.log(element.u_id)
+        setUserId(element.u_id)
+        const response = await fetch('/api/users',{
+          method: 'POST',
+          body: JSON.stringify({email}),
+          headers:{
+            "Content-type":'application/json',
+          },
+        })
+        const data=await response.json();
+        console.log(data);
         router.push("/my_profile");
       }
       else return;

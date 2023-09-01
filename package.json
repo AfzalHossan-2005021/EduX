@@ -34,6 +34,8 @@
     "react-icons": "^4.10.1",
     "react-popper": "^2.3.0",
     "react-scroll": "^1.8.9",
+    "stringify": "^5.2.0",
+    "stringify-object": "^5.0.0",
     "styled-components": "^5.3.11"
   },
   "devDependencies": {
