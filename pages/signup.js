@@ -111,7 +111,7 @@ export default function signup({ isLoggedIn, setIsLoggedIn }) {
                 <button className="border-solid border-lime-500 border-2 hover:bg-lime-500 rounded-md px-10 py-1.5 tracking-widest font-semibold text-white items-center" type="submit" onClick={handleSubmit}>Sign up</button>
               </div>
               <div>
-                <p className="text-sm font-light text-gray-500 dark:text-gray-400">Already have an account? <Link href='/signup'>Log in</Link></p>
+                <p className="text-sm font-light text-gray-500 dark:text-gray-400">Already have an account? <Link href='/login'>Log in</Link></p>
               </div>
             </form>
           </div>
