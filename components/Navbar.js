@@ -74,8 +74,8 @@ const Navbar = () => {
             <div className="flex-col hidden mr-2 md:order-2" ref={userDropdownRef}>
               <div className="z-50 my-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
                 <div className="px-4 py-3">
-                  <span className="block text-sm text-gray-900 dark:text-white">Name</span>
-                  <span className="block text-sm  text-gray-500 truncate dark:text-gray-400">Email</span>
+                  <span className="block text-sm text-gray-900 dark:text-white">{secureLocalStorage.getItem('u_name')}</span>
+                  <span className="block text-sm  text-gray-500 truncate dark:text-gray-400">{secureLocalStorage.getItem('u_email')}</span>
                 </div>
                 <ul className="py-2" aria-labelledby="user-menu-button">
                   <li>

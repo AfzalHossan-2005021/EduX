@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Head from 'next/head';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import secureLocalStorage from 'react-secure-storage';
@@ -27,10 +26,11 @@ export default function login() {
         body: JSON.stringify(data)
       })
       let res = await req.json()
-      let { message, u_id } = res
+      let { message, u_id , u_name} = res
       if (message == "Valid user") {
         secureLocalStorage.setItem('u_id', u_id);
         secureLocalStorage.setItem('u_email', email);
+        secureLocalStorage.setItem('u_name', u_name);
         router.replace('/user')
       }
       else {
