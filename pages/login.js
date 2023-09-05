@@ -54,10 +54,6 @@ export default function login() {
 
   return (
     <div>
-      <Head>
-        <title>EduX</title>
-      </Head>
-
       <div className='w-full min-h-screen flex justify-center items-center bg-gray-900'>
         <div className='relative w-[380px] h-[420px] bg-gray-800 rounded-tr-3xl rounded-bl-3xl overflow-hidden'>
           <div className='absolute w-[380px] h-[420px] bg-gradient-to-r from-lime-500 via-lime-500 to-transparent -top-[50%] -left-[50%] animate-spin-slow origin-bottom-right'></div>

@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import Logo from '../public/T_logo.png';
-import { FaSearch } from 'react-icons/fa';
-import React, { useEffect, useRef, useState } from 'react';
-import { AiOutlineCaretUp, AiOutlineCaretDown, AiOutlineShoppingCart, AiOutlineCloseCircle } from 'react-icons/ai';
-import { BsPersonCircle } from 'react-icons/bs'
+import {FaSearch} from 'react-icons/fa';
+import React, {useEffect, useRef, useState} from 'react';
+import {AiOutlineCaretUp, AiOutlineCaretDown, AiOutlineShoppingCart, AiOutlineCloseCircle} from 'react-icons/ai';
+import {BsPersonCircle} from 'react-icons/bs';
 
 import secureLocalStorage from 'react-secure-storage';
 
@@ -14,11 +14,12 @@ const Navbar = () => {
   const userDropdownRef = useRef();
   const [isOpen, setIsOpen] = useState(false);
   const [results, setResults] = useState([]);
-  const [isLoggedIn, setisLoggedIn] = useState(false)
+  const [isLoggedIn, setisLoggedIn] = useState(false);
   useEffect(() => {
-    if (secureLocalStorage.getItem('u_id'))
-      setisLoggedIn(true)
-  })
+    if (secureLocalStorage.getItem('u_id')) {
+      setisLoggedIn(true);
+    };
+  });
 
   const toggleCart = () => {
     if (cartRef.current.classList.contains('translate-x-full')) {
@@ -34,9 +35,9 @@ const Navbar = () => {
     if (userDropdownRef.current.classList.contains('hidden')) {
       userDropdownRef.current.classList.remove('hidden');
     } else if (!userDropdownRef.current.classList.contains('hidden')) {
-      userDropdownRef.current.classList.add('hidden')
+      userDropdownRef.current.classList.add('hidden');
     }
-  }
+  };
   return (
     <nav className="fixed top-0 left-0 right-0 h-16 bg-gradient-to-r from-slate-200 to-slate-400 shadow-2xl z-20">
       <div className="flex h-full p-3 md:space-x-5 justify-between">
@@ -58,30 +59,30 @@ const Navbar = () => {
             }
             {
               isLoggedIn &&
-                <button> <BsPersonCircle onClick={toggleDropdown} className='text-4xl' /></button>
+              <button> <BsPersonCircle onClick={toggleDropdown} className='text-4xl' /></button>
             }
           </div>
           {
             isLoggedIn &&
-            <div class="flex-col hidden mr-2 md:order-2" ref={userDropdownRef}>
-              <div class="z-50 my-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
-                <div class="px-4 py-3">
-                  <span class="block text-sm text-gray-900 dark:text-white">Bonnie Green</span>
-                  <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
+            <div className="flex-col hidden mr-2 md:order-2" ref={userDropdownRef}>
+              <div className="z-50 my-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
+                <div className="px-4 py-3">
+                  <span className="block text-sm text-gray-900 dark:text-white">Bonnie Green</span>
+                  <span className="block text-sm  text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
                 </div>
-                <ul class="py-2" aria-labelledby="user-menu-button">
+                <ul className="py-2" aria-labelledby="user-menu-button">
                   <li>
-                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
+                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
                   </li>
                   <li>
-                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
+                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
                   </li>
                 </ul>
               </div>
-              <button data-collapse-toggle="navbar-user" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-user" aria-expanded="false">
-                <span class="sr-only">Open main menu</span>
-                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15" />
+              <button data-collapse-toggle="navbar-user" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-user" aria-expanded="false">
+                <span className="sr-only">Open main menu</span>
+                <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h15M1 7h15M1 13h15" />
                 </svg>
               </button>
             </div>
@@ -99,7 +100,7 @@ const Navbar = () => {
   );
 };
 
-function ExploreDropDown({ isOpen, setIsOpen }) {
+function ExploreDropDown({isOpen, setIsOpen}) {
   return (
     <div className='absolute left-48 md:space-y-12'>
       <button className='absolute bg-blue-600 hover:bg-blue-700 flex items-center w-32 h-10 shadow-xlr justify-between p-2 font-bold text-lg rounded-l-lg tracking-wider border-transparent border-4 duration-5 group active:text-white active:border-white'
@@ -163,7 +164,7 @@ function ExploreDropDown({ isOpen, setIsOpen }) {
   );
 }
 
-function SearchBar({ setResults, containerRef }) {
+function SearchBar({setResults, containerRef}) {
   const [input, setInput] = useState('');
   useEffect(() => {
     const handler = (e) => {
@@ -176,13 +177,13 @@ function SearchBar({ setResults, containerRef }) {
 
   const fetchData = (value) => {
     fetch('http://localhost:3000/api/all_courses')
-      .then((Response) => Response.json())
-      .then((json) => {
-        const results = json.filter((course) => {
-          return (value && course && course.title && course.title.toLowerCase().includes(value));
-        });
-        setResults(results);
-      });
+        .then((Response) => Response.json())
+        .then((json) => {
+          const results = json.filter((course) => {
+            return (value && course && course.title && course.title.toLowerCase().includes(value));
+          });
+          setResults(results);
+        },[]);
   };
 
   const handleChange = (value) => {
@@ -201,7 +202,7 @@ function SearchBar({ setResults, containerRef }) {
   );
 }
 
-function SearchResultsList({ results }) {
+function SearchResultsList({results}) {
   return (
     <div className='relative left-[308px] w-[495px] bg-white flex-col shadow-md max-h-80 overflow-auto'>
       {

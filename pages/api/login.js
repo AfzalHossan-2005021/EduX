@@ -4,18 +4,18 @@ import pool from '../../middleware/connectdb'
 export default async function handler(req, res) {
   if (req.method == 'POST') {
     const connection = await pool.acquire();
-    const {email, password} = req.body;
+    const { email, password } = req.body;
     try {
       const result = await connection.execute(
-          `BEGIN
-                    :user_id := CHECK_USER(:email, :password);
-                END;`,
-          {
-            email: email,
-            password: password,
-            user_id: {dir: oracledb.BIND_OUT, type: oracledb.NUMBER},
-          },
-          {outFormat: oracledb.OUT_FORMAT_OBJECT},
+        `BEGIN
+            :user_id := CHECK_USER(:email, :password);
+          END;`,
+        {
+          email: email,
+          password: password,
+          user_id: { dir: oracledb.BIND_OUT, type: oracledb.NUMBER },
+        },
+        { outFormat: oracledb.OUT_FORMAT_OBJECT },
       );
       let message = '';
       let success = false;
@@ -31,13 +31,13 @@ export default async function handler(req, res) {
         message = 'Valid user';
         success = true;
       }
-      res.status(200).json({success, message, u_id});
+      res.status(200).json({ success, message, u_id });
     } catch (error) {
-      res.status(500).json({message: 'An error occurred.'});
+      res.status(500).json({ message: 'An error occurred.' });
     } finally {
       pool.release(connection);
     }
   } else {
-    res.status(400).json({message: 'This method is not allowed.'});
+    res.status(400).json({ message: 'This method is not allowed.' });
   }
 }
