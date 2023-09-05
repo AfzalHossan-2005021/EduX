@@ -7,7 +7,6 @@ import { AiOutlineCaretUp, AiOutlineCaretDown, AiOutlineShoppingCart, AiOutlineC
 import { BsPersonCircle } from 'react-icons/bs';
 
 import secureLocalStorage from 'react-secure-storage';
-import { Logout } from '@mui/icons-material';
 
 const Navbar = () => {
   const searchDivRef = useRef();
