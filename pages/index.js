@@ -20,6 +20,7 @@ export default function Home() {
     fetch('http://localhost:3000/api/popular_courses').then((a) => {
       return a.json();
     }).then((parsed) => {
+      console.log(parsed);
       setPopularCourses(parsed);
     });
   }, []);
