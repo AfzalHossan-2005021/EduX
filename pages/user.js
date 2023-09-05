@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-export default function My_Profile() {
+export default function user() {
   return (
     <main>
       <div>

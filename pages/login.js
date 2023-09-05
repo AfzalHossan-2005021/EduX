@@ -30,7 +30,8 @@ export default function login() {
       let { message, u_id } = res
       if (message == "Valid user") {
         secureLocalStorage.setItem('u_id', u_id);
-        router.replace('/my_profile')
+        secureLocalStorage.setItem('u_email', email);
+        router.replace('/user')
       }
       else {
         setIsErrorOccured(true)
@@ -42,7 +43,7 @@ export default function login() {
   }
   useEffect(() => {
     if (secureLocalStorage.getItem('u_id')) {
-      router.replace('/my_profile')
+      router.replace('/user')
     }
     let handler = () => {
       if (isErrorOccured) {
