@@ -1,13 +1,37 @@
 import Image from 'next/image';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ProfilePic from '../public/profile_pic.jpg';
 import secureLocalStorage from 'react-secure-storage';
+import CourseWall_1 from '../public/course_wall-1.jpg'
+import CourseWall_2 from '../public/course_wall-2.jpg'
+import { HiArrowNarrowRight } from 'react-icons/hi';
+import { Progress } from "@material-tailwind/react";
 
 const user = () => {
-  const u_id = secureLocalStorage.getItem('u_id');
   let userInfo;
+  const inProgessRef = useRef();
+  const completedRef = useRef();
+  const u_id = secureLocalStorage.getItem('u_id');
+  const [inProgressCourses, setInProgressCourses] = useState([]);
+  const [completedCourses, setCompletedCourses] = useState([]);
+
+  const inProgressTab = () => {
+    if (inProgessRef.current.classList.contains('hidden')) {
+      inProgessRef.current.classList.remove('hidden');
+      inProgessRef.current.classList.add('flex');
+      completedRef.current.classList.add('hidden');
+    }
+  };
+
+  const completedTab = () => {
+    if (completedRef.current.classList.contains('hidden')) {
+      completedRef.current.classList.remove('hidden');
+      completedRef.current.classList.add('flex');
+      inProgessRef.current.classList.add('hidden');
+    }
+  };
   useEffect(() => {
-    fetch('http://localhost:3000/api/user_info',{
+    fetch('http://localhost:3000/api/user_info', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ u_id })
@@ -18,12 +42,22 @@ const user = () => {
       document.getElementById('name').innerHTML = userInfo.name;
       document.getElementById('email').innerHTML = userInfo.email;
       document.getElementById('dob').innerHTML = userInfo.date_of_birth;
-      if(userInfo.gender == 'M')
+      if (userInfo.gender == 'M')
         document.getElementById('gender').innerHTML = 'Male';
       else
         document.getElementById('gender').innerHTML = 'Female';
       document.getElementById('course_count').innerHTML = userInfo.course_count;
       document.getElementById('reg_date').innerHTML = userInfo.reg_date;
+    });
+    fetch('http://localhost:3000/api/user_courses', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ u_id })
+    }).then((res) => {
+      return res.json();
+    }).then((json_res) => {
+      setInProgressCourses(json_res[0]);
+      setCompletedCourses(json_res[1]);
     });
   }, []);
 
@@ -71,15 +105,87 @@ const user = () => {
           <div className="flex items-center">
             <ul className="flex flex-row font-medium mt-0 mr-6 space-x-8 text-sm">
               <li>
-                <a href="#" className="text-gray-900 dark:text-white hover:underline">In progress</a>
+                <button onClick={inProgressTab}><h1 className='text-2xl hover:underline hover:text-blue-500'>In progress</h1></button>
               </li>
               <li>
-                <a href="#" className="text-gray-900 dark:text-white hover:underline">Completed</a>
+                <button onClick={completedTab}><h1 className='text-2xl hover:underline hover:text-blue-500'>Completed</h1></button>
               </li>
             </ul>
           </div>
         </div>
       </nav>
+      <div ref={inProgessRef} className="flex flex-wrap mx-28 my-4">
+        {inProgressCourses.map((course) => {
+          return <div className='flex border border-gray-400 rounded-lg hover:shadow-md hover:shadow-slate-800 hover:bg-white overflow-hidden h-40 w-full p-6 m-5'>
+            <div className='w-2/3 border-e-2 px-5 flex'>
+              <div className='round rounded-md overflow-hidden'>
+                <Image src={CourseWall_1} alt='profile picture' priority='true' className='h-28 w-auto'></Image>
+              </div>
+              <div className='mx-5 space-y-4'>
+                <h2 className="text-3xl text-gray-900 font-bold title-font">{course.title}</h2>
+                <div className='flex space-x-5'>
+                  <div><h1>Progress</h1></div>
+                  <div className='w-full h-full pt-2'>
+                    <Progress value={course.progress} />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className='w-1/3 px-5'>
+              <div className='h-1/2 items-center justify-center flex'>
+                <a href={`/user/courses/${course.title}`}>
+                  <div className='bg-blue-600 h-10 w-40 rounded-md flex items-center justify-center space-x-2 hover:bg-blue-700'>
+                    <p className='text-white text-lg'>Go to course</p>
+                    <HiArrowNarrowRight className='text-3xl text-white' />
+                  </div>
+                </a>
+              </div>
+              <div className='h-1/2 items-center justify-center flex'>
+                <button>
+                  <div className='border-2 border-blue-500 bg-transparent h-10 w-40 rounded-md flex items-center justify-center space-x-2 hover:bg-blue-500 text-blue-500 text-lg hover:text-white'>
+                    Rate the Course
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>;
+        })}
+      </div>
+      <div ref={completedRef} className="flex-wrap mx-28 my-4 hidden">
+        {completedCourses.map((course) => {
+          return <div className='flex border border-gray-400 rounded-lg hover:shadow-md hover:shadow-slate-800 hover:bg-white overflow-hidden h-40 w-full p-6 m-5'>
+            <div className='w-2/3 border-e-2 px-5 flex'>
+              <div className='round rounded-md overflow-hidden'>
+                <Image src={CourseWall_2} alt='profile picture' priority='true' className='h-28 w-auto'></Image>
+              </div>
+              <div className='mx-5 space-y-4'>
+                <h2 className="text-3xl text-gray-900 font-bold title-font">{course.title}</h2>
+                <div className='flex space-x-5'>
+                  <div><h1 className='text-xl text-blue-500'>Completion Date: {course.completion_date}</h1></div>
+                  <div><h1 className='text-xl text-blue-500'>Grade: {course.grade}</h1></div>
+                </div>
+              </div>
+            </div>
+            <div className='w-1/3 px-5'>
+              <div className='h-1/2 items-center justify-center flex'>
+                <a href={`/user/courses/${course.title}`}>
+                  <div className='bg-blue-600 h-10 w-40 rounded-md flex items-center justify-center space-x-2 hover:bg-blue-700'>
+                    <p className='text-white text-lg'>Go to course</p>
+                    <HiArrowNarrowRight className='text-3xl text-white' />
+                  </div>
+                </a>
+              </div>
+              <div className='h-1/2 items-center justify-center flex'>
+                <button>
+                  <div className='border-2 border-blue-500 bg-transparent h-10 w-40 rounded-md flex items-center justify-center space-x-2 hover:bg-blue-500 text-blue-500 text-lg hover:text-white'>
+                    Rate the Course
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>;
+        })}
+      </div>
     </div>
   );
 };
