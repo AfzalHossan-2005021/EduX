@@ -1,11 +1,11 @@
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
-import ProfilePic from '../public/profile_pic.jpg';
+import ProfilePic from '../../public/profile_pic.jpg';
 import secureLocalStorage from 'react-secure-storage';
-import CourseWall_1 from '../public/course_wall-1.jpg'
-import CourseWall_2 from '../public/course_wall-2.jpg'
+import CourseWall_1 from '../../public/course_wall-1.jpg';
+import CourseWall_2 from '../../public/course_wall-2.jpg';
 import { HiArrowNarrowRight } from 'react-icons/hi';
-import { Progress } from "@material-tailwind/react";
+import { Progress } from '@material-tailwind/react';
 
 const user = () => {
   let userInfo;
@@ -34,7 +34,7 @@ const user = () => {
     fetch('http://localhost:3000/api/user_info', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ u_id })
+      body: JSON.stringify({ u_id }),
     }).then((res) => {
       return res.json();
     }).then((json_res) => {
@@ -42,17 +42,18 @@ const user = () => {
       document.getElementById('name').innerHTML = userInfo.name;
       document.getElementById('email').innerHTML = userInfo.email;
       document.getElementById('dob').innerHTML = userInfo.date_of_birth;
-      if (userInfo.gender == 'M')
+      if (userInfo.gender == 'M') {
         document.getElementById('gender').innerHTML = 'Male';
-      else
+      } else {
         document.getElementById('gender').innerHTML = 'Female';
+      }
       document.getElementById('course_count').innerHTML = userInfo.course_count;
       document.getElementById('reg_date').innerHTML = userInfo.reg_date;
     });
     fetch('http://localhost:3000/api/user_courses', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ u_id })
+      body: JSON.stringify({ u_id }),
     }).then((res) => {
       return res.json();
     }).then((json_res) => {
@@ -100,17 +101,11 @@ const user = () => {
           </div>
         </div>
       </section>
-      <nav className="bg-gray-50 dark:bg-gray-700">
+      <nav className="bg-gradient-to-r from-slate-200 to-slate-400 shadow-2xl z-20">
         <div className="max-w-screen-xl px-4 py-3 mx-auto">
-          <div className="flex items-center">
-            <ul className="flex flex-row font-medium mt-0 mr-6 space-x-8 text-sm">
-              <li>
-                <button onClick={inProgressTab}><h1 className='text-2xl hover:underline hover:text-blue-500'>In progress</h1></button>
-              </li>
-              <li>
-                <button onClick={completedTab}><h1 className='text-2xl hover:underline hover:text-blue-500'>Completed</h1></button>
-              </li>
-            </ul>
+          <div className="flex items-center space-x-5">
+            <button onClick={inProgressTab}><h1 className='text-2xl hover:underline hover:text-blue-500'>In progress</h1></button>
+            <button onClick={completedTab}><h1 className='text-2xl hover:underline hover:text-blue-500'>Completed</h1></button>
           </div>
         </div>
       </nav>
