@@ -4,11 +4,11 @@ import pool from "../../middleware/connectdb"
 export default async function handler(req, res) {
     if (req.method == 'POST') {
         const connection = await pool.acquire();
-        const { name, email, password, dob } = req.body;
+        const { name, email, password, dob , gender} = req.body;
         try {
             const result = await connection.execute(
                 `BEGIN
-                    :message := CREATE_USER(:name, :email, :password, :dob);
+                    :u_id := CREATE_USER(:name, :email, :password, :dob, :gender);
                     commit;
                 END;`,
                 {
@@ -16,7 +16,8 @@ export default async function handler(req, res) {
                     email: email,
                     password: password,
                     dob: dob,
-                    message: { dir: oracledb.BIND_OUT, type: oracledb.STRING, maxSize: 100 }
+                    gender: gender,
+                    u_id: { dir: oracledb.BIND_OUT, type: oracledb.STRING, maxSize: 100 }
                 },
                 { outFormat: oracledb.OUT_FORMAT_OBJECT }
             );

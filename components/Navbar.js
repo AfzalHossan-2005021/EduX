@@ -4,7 +4,7 @@ import Logo from '../public/T_logo.png';
 import { FaSearch } from 'react-icons/fa';
 import React, { useEffect, useRef, useState } from 'react';
 import { AiOutlineCaretUp, AiOutlineCaretDown, AiOutlineShoppingCart, AiOutlineCloseCircle } from 'react-icons/ai';
-import { BsPersonCircle } from 'react-icons/bs'
+import { BsPersonCircle } from 'react-icons/bs';
 
 import secureLocalStorage from 'react-secure-storage';
 
@@ -14,11 +14,12 @@ const Navbar = () => {
   const userDropdownRef = useRef();
   const [isOpen, setIsOpen] = useState(false);
   const [results, setResults] = useState([]);
-  const [isLoggedIn, setisLoggedIn] = useState(false)
+  const [isLoggedIn, setisLoggedIn] = useState(false);
   useEffect(() => {
-    if (secureLocalStorage.getItem('u_id'))
-      setisLoggedIn(true)
-  })
+    if (secureLocalStorage.getItem('u_id')) {
+      setisLoggedIn(true);
+    };
+  });
 
   const toggleCart = () => {
     if (cartRef.current.classList.contains('translate-x-full')) {
@@ -34,9 +35,15 @@ const Navbar = () => {
     if (userDropdownRef.current.classList.contains('hidden')) {
       userDropdownRef.current.classList.remove('hidden');
     } else if (!userDropdownRef.current.classList.contains('hidden')) {
-      userDropdownRef.current.classList.add('hidden')
+      userDropdownRef.current.classList.add('hidden');
     }
-  }
+  };
+
+  const logout = () => {
+    secureLocalStorage.removeItem('u_id');
+    setisLoggedIn(false);
+  };
+
   return (
     <nav className="fixed top-0 left-0 right-0 h-16 bg-gradient-to-r from-slate-200 to-slate-400 shadow-2xl z-20">
       <div className="flex h-full p-3 md:space-x-5 justify-between">
@@ -58,30 +65,30 @@ const Navbar = () => {
             }
             {
               isLoggedIn &&
-                <button> <BsPersonCircle onClick={toggleDropdown} className='text-4xl' /></button>
+              <button> <BsPersonCircle onClick={toggleDropdown} className='text-4xl' /></button>
             }
           </div>
           {
             isLoggedIn &&
-            <div class="flex-col hidden mr-2 md:order-2" ref={userDropdownRef}>
-              <div class="z-50 my-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
-                <div class="px-4 py-3">
-                  <span class="block text-sm text-gray-900 dark:text-white">Bonnie Green</span>
-                  <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
+            <div className="flex-col hidden mr-2 md:order-2" ref={userDropdownRef}>
+              <div className="z-50 my-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
+                <div className="px-4 py-3">
+                  <span className="block text-sm text-gray-900 dark:text-white">{secureLocalStorage.getItem('u_name')}</span>
+                  <span className="block text-sm  text-gray-500 truncate dark:text-gray-400">{secureLocalStorage.getItem('u_email')}</span>
                 </div>
-                <ul class="py-2" aria-labelledby="user-menu-button">
+                <ul className="py-2" aria-labelledby="user-menu-button">
                   <li>
-                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
+                    <a href="/user" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
                   </li>
                   <li>
-                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
+                    <a href="/" onClick={logout} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Log out</a>
                   </li>
                 </ul>
               </div>
-              <button data-collapse-toggle="navbar-user" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-user" aria-expanded="false">
-                <span class="sr-only">Open main menu</span>
-                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15" />
+              <button data-collapse-toggle="navbar-user" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-user" aria-expanded="false">
+                <span className="sr-only">Open main menu</span>
+                <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h15M1 7h15M1 13h15" />
                 </svg>
               </button>
             </div>
@@ -182,7 +189,7 @@ function SearchBar({ setResults, containerRef }) {
           return (value && course && course.title && course.title.toLowerCase().includes(value));
         });
         setResults(results);
-      });
+      }, []);
   };
 
   const handleChange = (value) => {
@@ -192,7 +199,7 @@ function SearchBar({ setResults, containerRef }) {
 
   return (
     <div className='absolute left-[340px] bg-white w-[498px] h-10 rounded-r-lg shadow-lg px-0 flex items-center'>
-      <input className='bg-transparent h-full w-[440px] text-xl ml-1.5 outline-none'
+      <input id='search_input' className='bg-transparent h-full w-[440px] text-xl ml-1.5 outline-none'
         placeholder='Type to search...' value={input} onChange={(e) => handleChange(e.target.value)} />
       <button className='absolute left-[450px] bg-blue-600 hover:bg-blue-700 border-none w-12 h-10 rounded-r-lg p-3'>
         <FaSearch color='white' size='20px' />

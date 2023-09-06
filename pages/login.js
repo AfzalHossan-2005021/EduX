@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Head from 'next/head';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import secureLocalStorage from 'react-secure-storage';
@@ -27,10 +26,12 @@ export default function login() {
         body: JSON.stringify(data)
       })
       let res = await req.json()
-      let { message, u_id } = res
+      let { message, u_id , u_name} = res
       if (message == "Valid user") {
         secureLocalStorage.setItem('u_id', u_id);
-        router.replace('/my_profile')
+        secureLocalStorage.setItem('u_email', email);
+        secureLocalStorage.setItem('u_name', u_name);
+        router.replace('/user')
       }
       else {
         setIsErrorOccured(true)
@@ -42,7 +43,7 @@ export default function login() {
   }
   useEffect(() => {
     if (secureLocalStorage.getItem('u_id')) {
-      router.replace('/my_profile')
+      router.replace('/user')
     }
     let handler = () => {
       if (isErrorOccured) {
@@ -54,10 +55,6 @@ export default function login() {
 
   return (
     <div>
-      <Head>
-        <title>EduX</title>
-      </Head>
-
       <div className='w-full min-h-screen flex justify-center items-center bg-gray-900'>
         <div className='relative w-[380px] h-[420px] bg-gray-800 rounded-tr-3xl rounded-bl-3xl overflow-hidden'>
           <div className='absolute w-[380px] h-[420px] bg-gradient-to-r from-lime-500 via-lime-500 to-transparent -top-[50%] -left-[50%] animate-spin-slow origin-bottom-right'></div>

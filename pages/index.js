@@ -2,6 +2,9 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image'
 import WallPic from '../public/edux_wall.png'
+import CourseWall_1 from '../public/course_wall-1.jpg'
+import CourseWall_2 from '../public/course_wall-2.jpg'
+import CourseWall_3 from '../public/course_wall-3.jpg'
 import React, { useEffect, useState } from 'react';
 
 
@@ -17,6 +20,7 @@ export default function Home() {
     fetch('http://localhost:3000/api/popular_courses').then((a) => {
       return a.json();
     }).then((parsed) => {
+      console.log(parsed);
       setPopularCourses(parsed);
     });
   }, []);
@@ -46,9 +50,12 @@ export default function Home() {
                 {TopRatedCourses.map((course) => {
                   return <div className="xl:w-1/3 md:w-1/2 p-4 ">
                     <Link href={`/courses/${course.title}`}>
-                      <div className="border border-gray-200 p-6 rounded-lg hover:shadow-md hover:shadow-slate-500 hover:bg-white">
-                        <h2 className="text-lg text-gray-900 font-medium title-font mb-2">{course.title}</h2>
-                        <p className="leading-relaxed text-base">Rating : {course.rating} / 5</p>
+                      <div className="border border-gray-400 rounded-lg hover:shadow-md hover:shadow-slate-800 hover:bg-white overflow-hidden">
+                      <Image src={CourseWall_1} alt='wall' priority='true'></Image>
+                        <div className='p-6'>
+                          <h2 className="text-lg text-gray-900 font-medium title-font mb-2">{course.title}</h2>
+                          <p className="leading-relaxed text-base">Rating : {course.rating} / 5</p>
+                          </div>
                       </div>
                     </Link>
                   </div>;
@@ -61,9 +68,12 @@ export default function Home() {
                 {PopularCourses.map((course) => {
                   return <div className="xl:w-1/3 md:w-1/2 p-4 ">
                     <Link href={`/courses/${course.title}`}>
-                      <div className="border border-gray-200 p-6 rounded-lg hover:shadow-md hover:shadow-slate-500 hover:bg-white">
+                    <div className="border border-gray-400 rounded-lg hover:shadow-md hover:shadow-slate-800 hover:bg-white overflow-hidden">
+                      <Image src={CourseWall_2} alt='wall' priority='true'></Image>
+                      <div className='p-6'>
                         <h2 className="text-lg text-gray-900 font-medium title-font mb-2">{course.title}</h2>
                         <p className="leading-relaxed text-base">Total {course.student_count} students enrolled</p>
+                        </div>
                       </div>
                     </Link>
                   </div>;
