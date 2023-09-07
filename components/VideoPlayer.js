@@ -1,16 +1,29 @@
 import React from 'react';
-import YouTube from 'react-youtube';
 
-const VideoPlayer = ({ videoId }) => {
-  const opts = {
-    width: '100%',
-    playerVars: {
-      // https://developers.google.com/youtube/player_parameters
-      autoplay: 0, // Set to 1 if you want the video to autoplay
-    },
-  };
+const VideoPlayer = ({ videoUrl }) => {
+    const getYouTubeVideoId = (url) => {
+        const match = url.match(/[?&]v=([^?&]+)/);
+        return match && match[1];
+    };
 
-  return <YouTube videoId={videoId} opts={opts} />;
+    const videoId = getYouTubeVideoId(videoUrl);
+
+    const aspectRatio = 9 / 16;
+    const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    const playerWidth = screenWidth * 0.5;
+    const playerHeight = playerWidth * aspectRatio;
+
+    return (
+        <div className="video-player">
+            <iframe
+                width={`${playerWidth}px`}
+                height={`${playerHeight}px`}
+                src={`https://www.youtube.com/embed/${videoId}`}
+                allowFullScreen
+                title="YouTube Video Player"
+            ></iframe>
+        </div>
+    );
 };
 
 export default VideoPlayer;
