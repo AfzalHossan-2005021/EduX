@@ -51,26 +51,29 @@ export default function userCourseInfo({ c_id }) {
               <div className={isVisible[index] ? '' : 'hidden'}>
                 {
                   element[1].map((sub_element) => {
-                    return <Link href={`/user/courses/topic/${sub_element.l_id}`}><div className="px-10 py-3 space-x-5 flex items-center w-full border-none hover:bg-sky-100 overflow-hidden">
-                      <div><MdOutlineTopic /></div>
-                      <div>
-                        <h2 className="text-lg text-gray-900 font-normal title-font">{sub_element.description} </h2>
+                    return <Link href={`/user/courses/topic/lecture/${sub_element.l_id}`}>
+                      <div className="px-10 py-3 space-x-5 flex items-center w-full border-none hover:bg-sky-100 overflow-hidden">
+                        <div><MdOutlineTopic /></div>
+                        <div>
+                          <h2 className="text-lg text-gray-900 font-normal title-font">{sub_element.description} </h2>
+                        </div>
                       </div>
-                    </div>
                     </Link>
                   })
                 }
-                <div className="px-10 py-3 space-x-5 flex items-center w-full border-none hover:bg-sky-100 overflow-hidden">
-                  <div><MdOutlineQuiz /></div>
-                  <div className='flex items-center justify-between '>
-                    <div>
-                      <h2 className="text-lg text-gray-900 font-normal title-font"> Quiz {element[2][0].e_id} </h2>
-                    </div>
-                    <div className='right-0'>
-                      <h2 className="text-lg text-gray-900 font-normal title-font right-0"> Quiz {element[2][0].e_id} </h2>
+                <Link href={`/user/courses/topic/exam/${element[2][0].e_id}`}>
+                  <div className="px-10 py-3 space-x-5 flex items-center w-full border-none hover:bg-sky-100 overflow-hidden">
+                    <div><MdOutlineQuiz /></div>
+                    <div className='flex items-center justify-between space-x-24'>
+                      <div>
+                        <h2 className="text-lg text-gray-900 font-normal title-font"> Quiz {element[2][0].e_id} </h2>
+                      </div>
+                      <div>
+                        <h2 className="text-lg text-gray-900 font-normal title-font right-0">{element[2][0].duration} mins</h2>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </Link>
               </div>
             </div>;
           })
