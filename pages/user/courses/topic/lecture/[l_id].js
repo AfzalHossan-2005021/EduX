@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function userCourseInfo({ l_id }){
   return (
-    <div>lecture page-{l_id}</div>
+    <div></div>
   )
 };
 
