@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import secureLocalStorage from 'react-secure-storage';
-import { BiRightArrow } from 'react-icons/bi';
+import { BiRightArrow, BiDownArrow } from 'react-icons/bi';
+import { MdOutlineTopic, MdOutlineQuiz } from 'react-icons/md';
+import Link from 'next/link';
 
 export default function userCourseInfo({ c_id }) {
 
@@ -37,27 +39,36 @@ export default function userCourseInfo({ c_id }) {
         {
           content.map((element, index) => {
             return <div className="p-2" key={index}>
-              <div onClick={() => toggleVisibility(index)} className="px-5 py-3 space-x-5 flex items-center w-full border-none hover:border hover:border-gray-400 rounded-lg  hover:bg-blue-100 overflow-hidden">
-                <div><BiRightArrow /></div>
+              <div onClick={() => toggleVisibility(index)} className={(isVisible[index] ? 'border-b-2 border-blue-600' : 'border-2 border-white hover:border-2 hover:border-blue-600') + ' px-5 py-3 space-x-5 flex items-center w-full hover:bg-sky-100 overflow-hidden'}>
                 <div>
-                  <h2 className="text-lg text-gray-900 font-medium title-font">{element[0].name} </h2>
+                  {!isVisible[index] && <BiRightArrow />}
+                  {isVisible[index] && <BiDownArrow />}
+                </div>
+                <div>
+                  <h2 className="text-xl text-gray-900 font-bold title-font">{element[0].name} </h2>
                 </div>
               </div>
               <div className={isVisible[index] ? '' : 'hidden'}>
                 {
                   element[1].map((sub_element) => {
-                    return <div className="px-5 py-3 space-x-5 flex items-center w-full border-none hover:border hover:border-gray-400 rounded-lg  hover:bg-blue-100 overflow-hidden">
-                      <div><BiRightArrow /></div>
+                    return <Link href={`/user/courses/topic/${sub_element.l_id}`}><div className="px-10 py-3 space-x-5 flex items-center w-full border-none hover:bg-sky-100 overflow-hidden">
+                      <div><MdOutlineTopic /></div>
                       <div>
-                        <h2 className="text-lg text-gray-900 font-medium title-font">{sub_element.description} </h2>
+                        <h2 className="text-lg text-gray-900 font-normal title-font">{sub_element.description} </h2>
                       </div>
                     </div>
+                    </Link>
                   })
                 }
-                <div className="px-5 py-3 space-x-5 flex items-center w-full border-none hover:border hover:border-gray-400 rounded-lg  hover:bg-blue-100 overflow-hidden">
-                  <div><BiRightArrow /></div>
-                  <div>
-                    <h2 className="text-lg text-gray-900 font-medium title-font"> Quiz {element[2][0].e_id} </h2>
+                <div className="px-10 py-3 space-x-5 flex items-center w-full border-none hover:bg-sky-100 overflow-hidden">
+                  <div><MdOutlineQuiz /></div>
+                  <div className='flex items-center justify-between '>
+                    <div>
+                      <h2 className="text-lg text-gray-900 font-normal title-font"> Quiz {element[2][0].e_id} </h2>
+                    </div>
+                    <div className='right-0'>
+                      <h2 className="text-lg text-gray-900 font-normal title-font right-0"> Quiz {element[2][0].e_id} </h2>
+                    </div>
                   </div>
                 </div>
               </div>
