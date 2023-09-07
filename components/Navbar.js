@@ -45,7 +45,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 h-16 bg-gradient-to-r from-slate-200 to-slate-400 shadow-2xl z-20">
+    <nav className="fixed top-0 left-0 right-0 h-16 bg-gradient-to-r from-slate-200 to-slate-400 z-20">
       <div className="flex h-full p-3 md:space-x-5 justify-between">
         <div className='absolute'>
           <Link href="/">

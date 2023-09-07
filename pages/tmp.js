@@ -1,18 +1,14 @@
-import React from 'react'
+import React from 'react';
 
 const tmp = () => {
-    return (
-        <div>
-            <label for="underline_select" class="sr-only">Underline select</label>
-            <select id="underline_select" class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer">
-                <option selected>Choose a country</option>
-                <option value="US">United States</option>
-                <option value="CA">Canada</option>
-                <option value="FR">France</option>
-                <option value="DE">Germany</option>
-            </select>
-        </div>
-    )
-}
+  return (
 
-export default tmp
+    <><div className="mb-1 text-base font-medium dark:text-white">Default</div><div className="w-full bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700">
+      <div className="bg-blue-600 h-2.5 rounded-full dark:bg-blue-500 w-4/12"></div>
+    </div>
+      </>
+
+  );
+};
+
+export default tmp;

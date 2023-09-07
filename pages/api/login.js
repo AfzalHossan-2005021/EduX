@@ -6,7 +6,6 @@ export default async function handler(req, res) {
     const connection = await pool.acquire();
     const { email, password } = req.body;
     try {
-      console.log("in api login ")
       const result = await connection.execute(
         `BEGIN
             CHECK_USER(:email, :password, :user_id, :user_name);
@@ -19,7 +18,6 @@ export default async function handler(req, res) {
         },
         { outFormat: oracledb.OUT_FORMAT_OBJECT },
       );
-      console.log("in api login 2");
       let message = '';
       let success = false;
       const u_id = result.outBinds.user_id;

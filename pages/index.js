@@ -1,16 +1,16 @@
-import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image'
+import React, { useEffect, useState } from 'react';
 import WallPic from '../public/edux_wall.png'
 import CourseWall_1 from '../public/course_wall-1.jpg'
 import CourseWall_2 from '../public/course_wall-2.jpg'
 import CourseWall_3 from '../public/course_wall-3.jpg'
-import React, { useEffect, useState } from 'react';
 
 
 export default function Home() {
-  const [TopRatedCourses, setTopRatedCourses] = useState([]);
   const [PopularCourses, setPopularCourses] = useState([]);
+  const [TopRatedCourses, setTopRatedCourses] = useState([]);
+
   useEffect(() => {
     fetch('http://localhost:3000/api/top_rated_courses').then((a) => {
       return a.json();
@@ -28,9 +28,6 @@ export default function Home() {
   return (
     <main>
       <div className='bg-slate-100'>
-        <Head>
-          <title>EduX</title>
-        </Head>
         <section className="text-gray-600 body-font">
           <div>
             <Image src={WallPic} alt='wall' priority='true'></Image>
