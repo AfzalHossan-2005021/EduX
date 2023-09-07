@@ -1,4 +1,3 @@
-
 export default function get_exam_question_query(EXAM_ID){
     return(
         `SELECT "Questions"."q_id", "Questions"."q_description",
