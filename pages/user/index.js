@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
 import ProfilePic from '../../public/profile_pic.jpg';
@@ -128,12 +129,12 @@ const user = () => {
             </div>
             <div className='w-1/3 px-5'>
               <div className='h-1/2 items-center justify-center flex'>
-                <a href={`/user/courses/${course.c_id}`}>
+                <Link href={`/user/courses/${course.c_id}`}>
                   <div className='bg-blue-600 h-10 w-40 rounded-md flex items-center justify-center space-x-2 hover:bg-blue-700'>
                     <p className='text-white text-lg'>Go to course</p>
                     <HiArrowNarrowRight className='text-3xl text-white' />
                   </div>
-                </a>
+                </Link>
               </div>
               <div className='h-1/2 items-center justify-center flex'>
                 <button>
