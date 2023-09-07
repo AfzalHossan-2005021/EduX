@@ -1,81 +1,87 @@
-import React from 'react'
-import { useState } from 'react';
-
-const questions = [
-    {
-        question: 'What is the capital of France?',
-        options: ['London', 'Berlin', 'Madrid', 'Paris'],
-        correctAnswer: 'Paris',
-    },
-    {
-        question: 'Which planet is known as the Red Planet?',
-        options: ['Venus', 'Mars', 'Jupiter', 'Saturn'],
-        correctAnswer: 'Mars',
-    },
-    // Add more questions here
-];
+import { useState, useEffect } from 'react';
 
 export default function userCourseInfo({ e_id }) {
+  const [questions, setQuestions] = useState([]);
+  const [selectedOptions, setSelectedOptions] = useState(new Array(5).fill(null));
+  const [score, setScore] = useState(null);
 
-    const [selectedOptions, setSelectedOptions] = useState(new Array(questions.length).fill(null));
-    const [score, setScore] = useState(0);
+  useEffect(() => {
+    fetch('http://localhost:3000/api/exam_questions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ e_id })
+    }).then((res) => {
+      return res.json();
+    }).then((json_res) => {
+      setQuestions(json_res);
+    });
+  }, []);
 
-    const handleOptionSelect = (questionIndex, option) => {
-        const updatedOptions = [...selectedOptions];
-        updatedOptions[questionIndex] = option;
-        setSelectedOptions(updatedOptions);
-    };
+  const handleOptionSelect = (questionIndex, option) => {
+    const updatedOptions = [...selectedOptions];
+    updatedOptions[questionIndex] = option;
+    setSelectedOptions(updatedOptions);
+  };
 
-    const handleSubmit = () => {
-        // Calculate the score
-        let newScore = 0;
-        for (let i = 0; i < questions.length; i++) {
-            if (selectedOptions[i] === questions[i].correctAnswer) {
-                newScore++;
-            }
-        }
-        setScore(newScore);
-    };
+  const handleSubmit = () => {
+    let newScore = 0;
+    for (let i = 0; i < questions.length; i++) {
+      if (selectedOptions[i] == questions[i].right_ans) {
+        newScore += questions[i].marks;
+      }
+    }
+    setScore(newScore);
+  };
 
-    return (
-        <div className="container mx-auto p-4">
-            <h1 className="text-2xl font-semibold mb-4">MCQ Quiz</h1>
-            {questions.map((question, index) => (
-                <div key={index} className="mb-4">
-                    <h2 className="text-lg font-semibold mb-2">Question {index + 1}</h2>
-                    <p className="mb-2">{question.question}</p>
-                    <ul>
-                        {question.options.map((option, optionIndex) => (
-                            <li
-                                key={optionIndex}
-                                onClick={() => handleOptionSelect(index, option)}
-                                className={`bg-gray-100 rounded-lg p-2 mb-2 cursor-pointer hover:bg-blue-100 ${selectedOptions[index] === option ? 'bg-blue-200' : ''
-                                    }`}
-                            >
-                                {option}
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+  console.log(selectedOptions);
+
+  return (
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-semibold mb-4">MCQ Quiz</h1>
+      {questions.map((question, index) => (
+        <div key={index} className="mb-4">
+          <h2 className="text-lg font-semibold mb-2">Question {question.serial}</h2>
+          <p className="mb-2">{question.q_description}</p>
+          <ul>
+            {['opt1', 'opt2', 'opt3', 'opt4'].map((optionKey, optionIndex) => (
+              <li
+                key={optionIndex}
+                className={`mb-2 flex items-center cursor-pointer`}
+              >
+                <input
+                  type="radio"
+                  id={`q${index}_option${optionIndex}`}
+                  name={`q${index}`}
+                  value={question[optionKey]}
+                  checked={selectedOptions[index] == optionIndex+1}
+                  onChange={() => handleOptionSelect(index, optionIndex+1)}
+                  className="mr-2"
+                />
+                <label htmlFor={`q${index}_option${optionIndex}`}>{question[optionKey]}</label>
+              </li>
             ))}
-            <button
-                className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-                onClick={handleSubmit}
-            >
-                Submit
-            </button>
-            {score !== null && (
-                <div className="mt-4">
-                    <h2 className="text-xl font-semibold">Your Score: {score} out of {questions.length}</h2>
-                </div>
-            )}
+          </ul>
         </div>
-    );
+      ))}
+      <button
+        className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+        onClick={handleSubmit}
+      >
+        Submit
+      </button>
+      {score !== null && (
+        <div className="mt-4">
+          <h2 className="text-xl font-semibold">Your Score: {score} out of {questions.length}</h2>
+        </div>
+      )}
+    </div>
+  );
 }
 
 
+
 export const getServerSideProps = async (context) => {
-    const { params } = context
-    const { e_id } = params
-    return { props: { e_id } }
+  const { params } = context
+  const { e_id } = params
+  return { props: { e_id } }
 }
