@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import Image from 'next/image'
-import React, { useEffect, useState } from 'react';
 import WallPic from '../public/edux_wall.png'
+import React, { useEffect, useState } from 'react';
+//import WallPic from '../public/edux_wall.png'
 import CourseWall_1 from '../public/course_wall-1.jpg'
 import CourseWall_2 from '../public/course_wall-2.jpg'
 import CourseWall_3 from '../public/course_wall-3.jpg'
