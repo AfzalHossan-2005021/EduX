@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import secureLocalStorage from 'react-secure-storage';
 
-const RateCourse = () => {
+
+const RateCourse = ({ c_id }) => {
   const [isDivVisible, setIsDivVisible] = useState(false);
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState('');
@@ -9,27 +11,23 @@ const RateCourse = () => {
     setIsDivVisible(!isDivVisible);
   };
 
-  const handleRatingChange = (event) => {
-    const newRating = parseInt(event.target.value);
-    setRating(newRating);
-  };
-
-  const handleReviewChange = (event) => {
-    setReview(event.target.value);
-  };
-
-  const submitRating = () => {
-    console.log('Rating:', rating);
-    console.log('Review:', review);
+  const submitRating = async () => {
+    let u_id = secureLocalStorage.getItem('u_id');
+    const data = { u_id, c_id, rating, review };
+    await fetch('http://localhost:3000/api/rate_course', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
     setIsDivVisible(false);
   };
 
   return (
     <div>
       <div className='flex items-center justify-center'>
-      <button onClick={toggleDivVisibility} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-        Rate the Course
-      </button>
+        <button onClick={toggleDivVisibility} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          Rate the Course
+        </button>
       </div>
 
       {isDivVisible && (
@@ -42,7 +40,7 @@ const RateCourse = () => {
                   type="radio"
                   name="rating"
                   value={star}
-                  onChange={handleRatingChange}
+                  onChange={(event) => setRating(event.target.value)}
                 />
                 <span className="ml-1">★</span>
               </label>
@@ -52,7 +50,7 @@ const RateCourse = () => {
             className="mt-2 p-2 w-full border rounded"
             placeholder="Write a review..."
             value={review}
-            onChange={handleReviewChange}
+            onChange={(event) => setReview(event.target.value)}
           ></textarea>
           <button
             onClick={submitRating}

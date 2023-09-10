@@ -138,7 +138,7 @@ const user = () => {
                 </Link>
               </div>
               <div className='items-center justify-center flex'>
-                <RateCourse />
+                <RateCourse c_id={course.c_id}/>
               </div>
             </div>
           </div>;
