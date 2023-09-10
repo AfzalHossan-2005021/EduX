@@ -1,10 +1,12 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import Logo from '../public/T_logo.png';
-import { FaSearch } from 'react-icons/fa';
 import React, { useEffect, useRef, useState } from 'react';
-import { AiOutlineCaretUp, AiOutlineCaretDown, AiOutlineShoppingCart, AiOutlineCloseCircle } from 'react-icons/ai';
+import { AiOutlineCaretUp, AiOutlineCaretDown, AiOutlineCloseCircle } from 'react-icons/ai';
 import { BsPersonCircle } from 'react-icons/bs';
+import { BiHeart } from 'react-icons/bi';
+import { FaSearch } from 'react-icons/fa';
+
 
 import secureLocalStorage from 'react-secure-storage';
 
@@ -14,6 +16,7 @@ const Navbar = () => {
   const userDropdownRef = useRef();
   const [isOpen, setIsOpen] = useState(false);
   const [results, setResults] = useState([]);
+  const [allCourses, setAllCourses] = useState([]);
   const [isLoggedIn, setisLoggedIn] = useState(false);
   useEffect(() => {
     if (secureLocalStorage.getItem('u_id')) {
@@ -44,9 +47,15 @@ const Navbar = () => {
     setisLoggedIn(false);
   };
 
+  useEffect(() => {
+    fetch('http://localhost:3000/api/all_courses')
+      .then((Response) => Response.json())
+      .then((json) => {setAllCourses(json)});
+  }, []);
+
   return (
     <nav className="fixed top-0 left-0 right-0 h-16 bg-gradient-to-r from-slate-200 to-slate-400 z-20">
-      <div className="flex h-full p-3 md:space-x-5 justify-between">
+      <div className="flex h-full p-3 space-x-5 justify-between">
         <div className='absolute'>
           <Link href="/">
             <Image src={Logo} alt="Logo" height='50' priority={true} />
@@ -54,12 +63,12 @@ const Navbar = () => {
         </div>
         <ExploreDropDown isOpen={isOpen} setIsOpen={setIsOpen} />
         <div className='w-2/5 md:space-y-12' ref={searchDivRef}>
-          <SearchBar setResults={setResults} containerRef={searchDivRef} />
-          <SearchResultsList results={results} />
+          <SearchBar allCourses={allCourses} setResults={setResults} containerRef={searchDivRef} />
+          <SearchResultsList results={results} setResults={setResults}/>
         </div>
         <div className='flex-col'>
           <div className='flex space-x-5 pr-5 items-center justify-end'>
-            <button> <AiOutlineShoppingCart onClick={toggleCart} className='text-4xl' /> </button>
+            <button> <BiHeart onClick={toggleCart} className='text-4xl' /> </button>
             {
               !isLoggedIn && <LogIn_SignUp />
             }
@@ -170,7 +179,7 @@ function ExploreDropDown({ isOpen, setIsOpen }) {
   );
 }
 
-function SearchBar({ setResults, containerRef }) {
+function SearchBar({ allCourses, setResults, containerRef }) {
   const [input, setInput] = useState('');
   useEffect(() => {
     const handler = (e) => {
@@ -182,14 +191,10 @@ function SearchBar({ setResults, containerRef }) {
   });
 
   const fetchData = (value) => {
-    fetch('http://localhost:3000/api/all_courses')
-      .then((Response) => Response.json())
-      .then((json) => {
-        const results = json.filter((course) => {
-          return (value && course && course.title && course.title.toLowerCase().includes(value));
-        });
-        setResults(results);
-      }, []);
+    const results = allCourses.filter((course) => {
+      return (value && course && course.title && course.title.toLowerCase().includes(value));
+    });
+    setResults(results);
   };
 
   const handleChange = (value) => {
@@ -208,17 +213,19 @@ function SearchBar({ setResults, containerRef }) {
   );
 }
 
-function SearchResultsList({ results }) {
+function SearchResultsList({ results, setResults }) {
   return (
-    <div className='relative left-[308px] w-[495px] bg-white flex-col shadow-md max-h-80 overflow-auto'>
+    <div className='relative left-[308px] w-[480px] bg-white flex-col shadow-md max-h-80 overflow-auto'>
       {
         results.map((result, id) => {
           return (
-            <Link href={`/courses/${result.title}`}>
+            <button className='w-full' onClick={() => setResults([])}>
+            <Link key={id} href={`/courses/${result.title}`}>
               <div key={id} className='py-5 px-2 hover:bg-zinc-300 text-sky-600'>
                 {result.title}
               </div>
             </Link>
+            </button>
           );
         })
       }

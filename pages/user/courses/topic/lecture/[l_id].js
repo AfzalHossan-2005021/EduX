@@ -1,19 +1,3 @@
-// import React from 'react'
-
-// export default function userCourseInfo({ l_id }){
-//   return (
-//     <div></div>
-//   )
-// };
-
-// export const getServerSideProps = async (context) => {
-//     const { params } = context
-//     const { l_id } = params
-//     return { props: { l_id } }
-//   }
-
-
-// pages/course.js
 import React, { useState } from 'react';
 import VideoPlayer from '../../../../../components/VideoPlayer';
 
