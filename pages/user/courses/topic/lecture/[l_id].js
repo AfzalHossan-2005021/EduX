@@ -1,31 +1,32 @@
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import secureLocalStorage from 'react-secure-storage';
 import VideoPlayer from '../../../../../components/VideoPlayer';
 
 export default function LecturePage({ l_id }) {
   const router = useRouter();
-  const u_id = secureLocalStorage.getItem('u_id');
-  const { c_id , t_id} = router.query;
+  const s_id = secureLocalStorage.getItem('u_id');
+  const { c_id, t_id } = router.query;
+  const [description, setDescription] = useState('');
   const [videoUrl, setVideoUrl] = useState('');
 
-  const handleVideoUrlChange = (event) => {
-    setVideoUrl(event.target.value);
-  };
-
-  console.log(u_id);
-  console.log(c_id);
-  console.log(t_id);
-  console.log(l_id);
+  useEffect(() => {
+    fetch('http://localhost:3000/api/lecture_content', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ s_id, c_id, t_id, l_id })
+    }).then((res) => {
+      return res.json();
+    }).then((json_res) => {
+      setDescription(json_res[0].description);
+      setVideoUrl(json_res[0].video_link);
+    });
+  }, []);
   return (
     <div>
-      <h1>Online Course</h1>
-      <input
-        type="text"
-        placeholder="Enter YouTube Video URL"
-        value={videoUrl}
-        onChange={handleVideoUrlChange}
-      />
+      <div className="flex flex-wrap w-full flex-col items-center text-center">
+        <h1 className="sm:text-3xl text-2xl font-medium underline title-font mt-10 text-gray-900">{description}</h1>
+      </div>
       {videoUrl && <VideoPlayer videoUrl={videoUrl} />}
     </div>
   );

@@ -34,7 +34,10 @@ export default function userCourseInfo({ c_id }) {
   };
 
   return (
-    <div className='flex items-center justify-center'>
+    <div className='flex-col items-center justify-center'>
+      <div className="flex flex-wrap w-full flex-col items-center text-center">
+        <h1 className="sm:text-3xl text-2xl font-medium title-font mt-10 underline text-gray-900">Course Contents</h1>
+      </div>
       <div className='border border-gray-400 w-1/2 m-10 rounded-lg p-5'>
         {
           content.map((element, index) => {
@@ -51,7 +54,7 @@ export default function userCourseInfo({ c_id }) {
               <div className={isVisible[index] ? '' : 'hidden'}>
                 {
                   element[1].map((sub_element) => {
-                    return <Link href={`/user/courses/topic/lecture/${sub_element.l_id}?c_id=${c_id}&t_id=${index+1}`}>
+                    return <Link href={`/user/courses/topic/lecture/${sub_element.l_id}?c_id=${c_id}&t_id=${index + 1}`}>
                       <div className="px-10 py-3 space-x-5 flex items-center w-full border-none hover:bg-sky-100 overflow-hidden">
                         <div><MdOutlineTopic /></div>
                         <div>

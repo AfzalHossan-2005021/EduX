@@ -10,11 +10,11 @@ const VideoPlayer = ({ videoUrl }) => {
 
     const aspectRatio = 9 / 16;
     const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-    const playerWidth = screenWidth * 0.5;
+    const playerWidth = screenWidth * 0.6;
     const playerHeight = playerWidth * aspectRatio;
 
     return (
-        <div className="video-player">
+        <div className="video-player flex my-10 items-center justify-center">
             <iframe
                 width={`${playerWidth}px`}
                 height={`${playerHeight}px`}
