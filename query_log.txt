@@ -1,5 +1,6 @@
 Basic Queries
     5 INSERT:
+        ->
 
 
 
@@ -7,3 +8,4 @@ Advanced Queries:
     5 such queries:
     2 queries should join 3 or more tables:
         -> get_user_info_query
+        -> get_exam_question_query

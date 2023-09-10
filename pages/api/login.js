@@ -8,8 +8,8 @@ export default async function handler(req, res) {
     try {
       const result = await connection.execute(
         `BEGIN
-            CHECK_USER(:email, :password, :user_id, :user_name);
-          END;`,
+          CHECK_USER(:email, :password, :user_id, :user_name);
+        END;`,
         {
           email: email,
           password: password,

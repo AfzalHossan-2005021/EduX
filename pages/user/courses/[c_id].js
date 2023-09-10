@@ -51,7 +51,7 @@ export default function userCourseInfo({ c_id }) {
               <div className={isVisible[index] ? '' : 'hidden'}>
                 {
                   element[1].map((sub_element) => {
-                    return <Link href={`/user/courses/topic/lecture/${sub_element.l_id}`}>
+                    return <Link href={`/user/courses/topic/lecture/${sub_element.l_id}?c_id=${c_id}&t_id=${index+1}`}>
                       <div className="px-10 py-3 space-x-5 flex items-center w-full border-none hover:bg-sky-100 overflow-hidden">
                         <div><MdOutlineTopic /></div>
                         <div>
