@@ -12,7 +12,7 @@ import secureLocalStorage from 'react-secure-storage';
 
 const Navbar = () => {
   const searchDivRef = useRef();
-  const cartRef = useRef();
+  const WishListRef = useRef();
   const userDropdownRef = useRef();
   const [isOpen, setIsOpen] = useState(false);
   const [results, setResults] = useState([]);
@@ -24,13 +24,13 @@ const Navbar = () => {
     };
   });
 
-  const toggleCart = () => {
-    if (cartRef.current.classList.contains('translate-x-full')) {
-      cartRef.current.classList.remove('translate-x-full');
-      cartRef.current.classList.add('translate-x-0');
-    } else if (!cartRef.current.classList.contains('translate-x-full')) {
-      cartRef.current.classList.remove('translate-x-0');
-      cartRef.current.classList.add('translate-x-full');
+  const toggleWishList = () => {
+    if (WishListRef.current.classList.contains('translate-x-full')) {
+      WishListRef.current.classList.remove('translate-x-full');
+      WishListRef.current.classList.add('translate-x-0');
+    } else if (!WishListRef.current.classList.contains('translate-x-full')) {
+      WishListRef.current.classList.remove('translate-x-0');
+      WishListRef.current.classList.add('translate-x-full');
     }
   };
 
@@ -50,7 +50,7 @@ const Navbar = () => {
   useEffect(() => {
     fetch('http://localhost:3000/api/all_courses')
       .then((Response) => Response.json())
-      .then((json) => {setAllCourses(json)});
+      .then((json) => { setAllCourses(json) });
   }, []);
 
   return (
@@ -64,17 +64,19 @@ const Navbar = () => {
         <ExploreDropDown isOpen={isOpen} setIsOpen={setIsOpen} />
         <div className='w-2/5 md:space-y-12' ref={searchDivRef}>
           <SearchBar allCourses={allCourses} setResults={setResults} containerRef={searchDivRef} />
-          <SearchResultsList results={results} setResults={setResults}/>
+          <SearchResultsList results={results} setResults={setResults} />
         </div>
         <div className='flex-col'>
           <div className='flex space-x-5 pr-5 items-center justify-end'>
-            <button> <BiHeart onClick={toggleCart} className='text-4xl' /> </button>
             {
               !isLoggedIn && <LogIn_SignUp />
             }
             {
               isLoggedIn &&
-              <button> <BsPersonCircle onClick={toggleDropdown} className='text-4xl' /></button>
+              <div className='flex space-x-5'>
+                <button> <BiHeart onClick={toggleWishList} className='text-4xl' /> </button>
+                <button> <BsPersonCircle onClick={toggleDropdown} className='text-4xl' /></button>
+              </div>
             }
           </div>
           {
@@ -103,9 +105,9 @@ const Navbar = () => {
             </div>
           }
         </div>
-        <div ref={cartRef} className='sidebar absolute top-0 right-0 bg bg-emerald-500 p-10 transform transition-transform translate-x-full'>
-          <h2 className='font-bold text-xl'>Cart</h2>
-          <span onClick={toggleCart} className="absolute top-2 right-2 cursor-pointer text-xl"><AiOutlineCloseCircle /></span>
+        <div ref={WishListRef} className='sidebar absolute top-0 right-0 bg bg-emerald-500 p-10 transform transition-transform translate-x-full'>
+          <h2 className='font-bold text-xl'>WishList</h2>
+          <span onClick={toggleWishList} className="absolute top-2 right-2 cursor-pointer text-xl"><AiOutlineCloseCircle /></span>
           <ol>
             <li><span>course</span></li>
           </ol>
@@ -220,11 +222,11 @@ function SearchResultsList({ results, setResults }) {
         results.map((result, id) => {
           return (
             <button className='w-full' onClick={() => setResults([])}>
-            <Link key={id} href={`/courses/${result.title}`}>
-              <div key={id} className='py-5 px-2 hover:bg-zinc-300 text-sky-600'>
-                {result.title}
-              </div>
-            </Link>
+              <Link key={id} href={`/courses/${result.title}`}>
+                <div key={id} className='py-5 px-2 hover:bg-zinc-300 text-sky-600'>
+                  {result.title}
+                </div>
+              </Link>
             </button>
           );
         })
@@ -248,10 +250,6 @@ function LogIn_SignUp() {
       </div>
     </div>
   );
-}
-
-function Cart() {
-  <button> cart </button>;
 }
 
 export default Navbar;
