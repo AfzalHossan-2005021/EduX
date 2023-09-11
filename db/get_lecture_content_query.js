@@ -8,6 +8,6 @@ export default function get_lecture_content_query(STUDENT_ID, COURSE_ID, TOPIC_I
         WHERE "Enrolls"."s_id" = '${STUDENT_ID}'
         AND "Courses"."c_id" = '${COURSE_ID}'
         AND "Topics"."t_id" = '${TOPIC_ID}'
-        AND "Lectures"."l_id" = '${LECTURE_ID}'`
+        AND "Lectures"."l_id" = '${LECTURE_ID}';`
     );
 }
