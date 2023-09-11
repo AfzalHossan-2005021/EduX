@@ -18,6 +18,6 @@ export default function get_course_suggestion_query(s_id){
             JOIN "Instructors" ON "Courses"."i_id" = "Instructors"."i_id" 
         WHERE
         "Enrolls"."s_id" = '${s_id}' 
-        );`
+        )`
     );
 }
