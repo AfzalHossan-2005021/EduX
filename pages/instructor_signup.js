@@ -39,6 +39,7 @@ export default function instructor_signup({ isLoggedIn, setIsLoggedIn }) {
         secureLocalStorage.setItem('u_id', u_id);
         secureLocalStorage.setItem('u_email', email);
         secureLocalStorage.setItem('u_name', name);
+        secureLocalStorage.setItem('user', 'i');
         router.replace('/instructor')
       }
       else {

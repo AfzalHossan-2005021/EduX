@@ -26,12 +26,15 @@ export default function login() {
         body: JSON.stringify(data)
       })
       let res = await req.json()
-      let { message, u_id , u_name} = res
+      let { message, u_id , u_name,u_student} = res
       if (message == "Valid user") {
         secureLocalStorage.setItem('u_id', u_id);
         secureLocalStorage.setItem('u_email', email);
         secureLocalStorage.setItem('u_name', u_name);
-        router.replace('/user')
+        if(u_student>0)
+        router.replace('/user');
+      else
+      router.replace('/instructor');
       }
       else {
         setIsErrorOccured(true)
