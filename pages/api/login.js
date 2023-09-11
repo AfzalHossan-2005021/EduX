@@ -8,13 +8,14 @@ export default async function handler(req, res) {
     try {
       const result = await connection.execute(
         `BEGIN
-          CHECK_USER(:email, :password, :user_id, :user_name);
+          CHECK_USER(:email, :password, :user_id, :user_name, :user_student);
         END;`,
         {
           email: email,
           password: password,
           user_id: { dir: oracledb.BIND_OUT, type: oracledb.NUMBER },
           user_name: { dir: oracledb.BIND_OUT, type: oracledb.STRING },
+          user_student: { dir: oracledb.BIND_OUT, type: oracledb.NUMBER },
         },
         { outFormat: oracledb.OUT_FORMAT_OBJECT },
       );
@@ -22,6 +23,7 @@ export default async function handler(req, res) {
       let success = false;
       const u_id = result.outBinds.user_id;
       const u_name = result.outBinds.user_name;
+      const u_student = result.outBinds.user_student;
 
       if (u_id == -1) {
         message = 'Invalid password';
@@ -33,7 +35,7 @@ export default async function handler(req, res) {
         message = 'Valid user';
         success = true;
       }
-      res.status(200).json({ success, message, u_id , u_name});
+      res.status(200).json({ success, message, u_id , u_name,u_student});
     } catch (error) {
       res.status(500).json({ message: 'An error occurred.' });
     } finally {
