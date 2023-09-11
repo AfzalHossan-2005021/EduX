@@ -22,7 +22,7 @@ export default async function handler(req, res) {
                 },
                 { outFormat: oracledb.OUT_FORMAT_OBJECT }
             );
-            res.status(200).json(result.implicitResults);
+            res.status(200).json(result.implicitResults[0][0]);
         } catch (error) {
             res.status(500).json({ message: 'An error occurred.' });
         } finally {
