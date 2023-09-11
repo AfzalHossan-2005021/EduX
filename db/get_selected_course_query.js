@@ -6,5 +6,3 @@ export default function get_selected_course_query(title){
         WHERE "Courses"."title" = '${title}'`
     );
 }
-
-
