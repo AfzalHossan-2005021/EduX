@@ -18,9 +18,15 @@ const Navbar = () => {
   const [results, setResults] = useState([]);
   const [allCourses, setAllCourses] = useState([]);
   const [isLoggedIn, setisLoggedIn] = useState(false);
+  const [isStudent, setisStudent] = useState(true);
   useEffect(() => {
     if (secureLocalStorage.getItem('u_id')) {
       setisLoggedIn(true);
+    };
+  });
+  useEffect(() => {
+    if (secureLocalStorage.getItem('user')=='i') {
+      setisStudent(false);
     };
   });
 
@@ -89,7 +95,12 @@ const Navbar = () => {
                 </div>
                 <ul className="py-2" aria-labelledby="user-menu-button">
                   <li>
+                  {isStudent &&
                     <a href="/user" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
+                  }
+                  {!isStudent &&
+                    <a href="/instructor" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
+                  }
                   </li>
                   <li>
                     <a href="/" onClick={logout} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Log out</a>
