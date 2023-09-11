@@ -4,7 +4,7 @@ import pool from "../../middleware/connectdb"
 export default async function handler(req, res) {
     if (req.method == 'POST') {
         const connection = await pool.acquire();
-        const { s_id, e_id, marks } = req.body;
+        const { s_id, e_id, score } = req.body;
         try {
             const result = await connection.execute(
                 `BEGIN
@@ -13,7 +13,7 @@ export default async function handler(req, res) {
                 {
                     s_id: s_id,
                     e_id: e_id,
-                    marks: marks
+                    marks: score
                 },
                 { outFormat: oracledb.OUT_FORMAT_OBJECT }
             );
