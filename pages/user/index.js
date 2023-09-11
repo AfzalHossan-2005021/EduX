@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
 import ProfilePic from '../../public/profile_pic.jpg';
@@ -6,6 +7,7 @@ import CourseWall_1 from '../../public/course_wall-1.jpg';
 import CourseWall_2 from '../../public/course_wall-2.jpg';
 import { HiArrowNarrowRight } from 'react-icons/hi';
 import { Progress } from '@material-tailwind/react';
+import RateCourse from '@/components/RateCourse';
 
 const user = () => {
   let userInfo;
@@ -111,7 +113,7 @@ const user = () => {
       </nav>
       <div ref={inProgessRef} className="flex flex-wrap mx-28 my-4">
         {inProgressCourses.map((course) => {
-          return <div className='flex border border-gray-400 rounded-lg hover:shadow-md hover:shadow-slate-800 hover:bg-white overflow-hidden h-40 w-full p-6 m-5'>
+          return <div className='flex border border-gray-400 rounded-lg hover:shadow-md hover:shadow-slate-800 hover:bg-white h-40 w-full p-6 m-5'>
             <div className='w-2/3 border-e-2 px-5 flex'>
               <div className='round rounded-md overflow-hidden'>
                 <Image src={CourseWall_1} alt='profile picture' priority='true' className='h-28 w-auto'></Image>
@@ -126,21 +128,17 @@ const user = () => {
                 </div>
               </div>
             </div>
-            <div className='w-1/3 px-5'>
+            <div className='w-1/3 px-5 space-y-3'>
               <div className='h-1/2 items-center justify-center flex'>
-                <a href={`/user/courses/${course.c_id}`}>
+                <Link href={`/user/courses/${course.c_id}`}>
                   <div className='bg-blue-600 h-10 w-40 rounded-md flex items-center justify-center space-x-2 hover:bg-blue-700'>
                     <p className='text-white text-lg'>Go to course</p>
                     <HiArrowNarrowRight className='text-3xl text-white' />
                   </div>
-                </a>
+                </Link>
               </div>
-              <div className='h-1/2 items-center justify-center flex'>
-                <button>
-                  <div className='border-2 border-blue-500 bg-transparent h-10 w-40 rounded-md flex items-center justify-center space-x-2 hover:bg-blue-500 text-blue-500 text-lg hover:text-white'>
-                    Rate the Course
-                  </div>
-                </button>
+              <div className='items-center justify-center flex'>
+                <RateCourse c_id={course.c_id}/>
               </div>
             </div>
           </div>;
@@ -148,7 +146,7 @@ const user = () => {
       </div>
       <div ref={completedRef} className="flex-wrap mx-28 my-4 hidden">
         {completedCourses.map((course) => {
-          return <div className='flex border border-gray-400 rounded-lg hover:shadow-md hover:shadow-slate-800 hover:bg-white overflow-hidden h-40 w-full p-6 m-5'>
+          return <div className='flex border border-gray-400 rounded-lg hover:shadow-md hover:shadow-slate-800 hover:bg-white h-40 w-full p-6 m-5'>
             <div className='w-2/3 border-e-2 px-5 flex'>
               <div className='round rounded-md overflow-hidden'>
                 <Image src={CourseWall_2} alt='profile picture' priority='true' className='h-28 w-auto'></Image>
