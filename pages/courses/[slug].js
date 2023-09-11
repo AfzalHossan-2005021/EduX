@@ -35,17 +35,10 @@ export default function course_page({ slug }) {
     })
     let res = await req.json()
     console.log(res);
-    let { message, u_balance ,c_value } = res
-    if(message=="Valid")
+    let { message, u_access } = res
+    if(message!="Valid")
     {
-      secureLocalStorage.setItem('u_balance', u_balance);
-      secureLocalStorage.setItem('c_value', c_value);
-      secureLocalStorage.setItem('c_id', c_id);
-      router.replace('/payment')
-    }
-    else
-    {
-      toast.warn('You do not have sufficent balance', {
+      toast.warn('You have already enrolled', {
         position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
@@ -56,7 +49,9 @@ export default function course_page({ slug }) {
         theme: "dark",
         });
     }
-    console.log();
+    else{
+      router.replace('/user');
+    }
   }
   return <>
     <section className="text-gray-600 body-font overflow-hidden">
