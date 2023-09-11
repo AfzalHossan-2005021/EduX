@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
+import secureLocalStorage from 'react-secure-storage';
 
 export default function userCourseInfo({ e_id }) {
+  const s_id = secureLocalStorage.getItem('u_id');
   const [questions, setQuestions] = useState([]);
   const [selectedOptions, setSelectedOptions] = useState(new Array(5).fill(null));
   const [score, setScore] = useState(null);
@@ -31,6 +33,11 @@ export default function userCourseInfo({ e_id }) {
       }
     }
     setScore(newScore);
+    fetch('http://localhost:3000/api/update_mark', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ s_id, e_id, score })
+    })
   };
 
   console.log(selectedOptions);

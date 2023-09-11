@@ -22,6 +22,7 @@ export default function LecturePage({ l_id }) {
       setVideoUrl(json_res[0].video_link);
     });
   }, []);
+
   return (
     <div>
       <div className="flex flex-wrap w-full flex-col items-center text-center">
