@@ -18,10 +18,11 @@ export default function LecturePage({ l_id }) {
     }).then((res) => {
       return res.json();
     }).then((json_res) => {
-      setDescription(json_res[0].description);
-      setVideoUrl(json_res[0].video_link);
+      setDescription(json_res.description);
+      setVideoUrl(json_res.video_link);
     });
   }, []);
+
   return (
     <div>
       <div className="flex flex-wrap w-full flex-col items-center text-center">
