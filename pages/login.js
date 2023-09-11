@@ -31,10 +31,12 @@ export default function login() {
         secureLocalStorage.setItem('u_id', u_id);
         secureLocalStorage.setItem('u_email', email);
         secureLocalStorage.setItem('u_name', u_name);
-        if(u_student>0)
-        router.replace('/user');
-      else
-      router.replace('/instructor');
+        if(u_student>0){
+          secureLocalStorage.setItem('user', 's');
+        router.replace('/user');}
+      else{
+        secureLocalStorage.setItem('user', 'i');
+      router.replace('/instructor');}
       }
       else {
         setIsErrorOccured(true)
