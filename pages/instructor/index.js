@@ -6,8 +6,10 @@ import CourseWall_1 from '../../public/course_wall-1.jpg';
 import CourseWall_2 from '../../public/course_wall-2.jpg';
 import { HiArrowNarrowRight } from 'react-icons/hi';
 import { Progress } from '@material-tailwind/react';
+import { useRouter } from 'next/navigation';
 
 const instructor = () => {
+  const router= useRouter();
   let userInfo;
   const u_id = secureLocalStorage.getItem('u_id');
   const [myCourses, setMyCourses] = useState([]);
@@ -36,6 +38,10 @@ const instructor = () => {
       setMyCourses(parsed);
     });
   }, []);
+  const create = async (event) => {
+    event.preventDefault();
+    router.replace('/instructor/create/create_courses');
+  }
 
   return (
     <div className='h-full w-full'>
@@ -72,6 +78,11 @@ const instructor = () => {
           </div>
         </div>
       </section>
+      <div>
+      <div className='flex justify-center'>
+                <button type="submit" onClick={create} className="border-solid border-lime-500 border-2 hover:bg-lime-500 rounded-md px-20 py-4 tracking-widest font-bold text-black items-center">Create Course</button>
+      </div>
+      </div>
       <div className="flex flex-wrap mx-28 my-4">
         {myCourses.map((course) => {
           return <div className='flex border border-gray-400 rounded-lg hover:shadow-md hover:shadow-slate-800 hover:bg-white overflow-hidden h-50 w-full p-6 m-5'>
@@ -86,7 +97,7 @@ const instructor = () => {
             </div>
             <div className='w-1/3 px-5 items-center justify-center flex'>
               
-                <a href={`/user/courses/${course.c_id}`}>
+                <a href={`/instructor/create/update_course`}>
                   <div className='bg-blue-600 h-10 w-40 rounded-md flex items-center justify-center space-x-2 hover:bg-blue-700'>
                     <p className='text-white text-lg'>Update course</p>
                     <HiArrowNarrowRight className='text-3xl text-white' />
