@@ -55,15 +55,15 @@ export default function Home() {
               </p>
             </div>
             <div>
-              {isLoggedIn && 
-              <div className='ps-1 pb-3'>
-                <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Suggestions From Your Instructors</h1>
-              </div>
+              {isLoggedIn &&
+                <div className='ps-1 pb-3'>
+                  <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Suggestions From Your Instructors</h1>
+                </div>
               }
               <div className="flex flex-wrap -m-4">
-                {isLoggedIn && courseSuggestion.map((course) => {
-                  return <div className="xl:w-1/3 md:w-1/2 p-4 ">
-                    <Link href={`/courses/${course.title}`}>
+                {isLoggedIn && courseSuggestion.map((course, id) => {
+                  return <div key={id} className="xl:w-1/3 md:w-1/2 p-4 ">
+                    <Link href={`/courses/${course.c_id}`}>
                       <div className="border border-gray-400 rounded-lg hover:shadow-md hover:shadow-slate-800 hover:bg-white overflow-hidden">
                         <Image src={CourseWall_1} alt='wall' priority='true'></Image>
                         <div className='p-6'>
@@ -79,9 +79,9 @@ export default function Home() {
                 <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Most Popular courses</h1>
               </div>
               <div className="flex flex-wrap -m-4">
-                {TopRatedCourses.map((course) => {
-                  return <div className="xl:w-1/3 md:w-1/2 p-4 ">
-                    <Link href={`/courses/${course.title}`}>
+                {TopRatedCourses.map((course, id) => {
+                  return <div key={id} className="xl:w-1/3 md:w-1/2 p-4 ">
+                    <Link href={`/courses/${course.c_id}`}>
                       <div className="border border-gray-400 rounded-lg hover:shadow-md hover:shadow-slate-800 hover:bg-white overflow-hidden">
                         <Image src={CourseWall_2} alt='wall' priority='true'></Image>
                         <div className='p-6'>
@@ -97,9 +97,9 @@ export default function Home() {
                 <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Top Rated Courses</h1>
               </div>
               <div className="flex flex-wrap -m-4">
-                {PopularCourses.map((course) => {
-                  return <div className="xl:w-1/3 md:w-1/2 p-4 ">
-                    <Link href={`/courses/${course.title}`}>
+                {PopularCourses.map((course, id) => {
+                  return <div key={id} className="xl:w-1/3 md:w-1/2 p-4 ">
+                    <Link href={`/courses/${course.c_id}`}>
                       <div className="border border-gray-400 rounded-lg hover:shadow-md hover:shadow-slate-800 hover:bg-white overflow-hidden">
                         <Image src={CourseWall_3} alt='wall' priority='true'></Image>
                         <div className='p-6'>

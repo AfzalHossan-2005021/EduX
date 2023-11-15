@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Head from 'next/head';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import secureLocalStorage from 'react-secure-storage';

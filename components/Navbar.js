@@ -2,13 +2,14 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Logo from '../public/T_logo.png';
 import React, { useEffect, useRef, useState } from 'react';
-import { AiOutlineCaretUp, AiOutlineCaretDown, AiOutlineCloseCircle } from 'react-icons/ai';
-import { BsPersonCircle } from 'react-icons/bs';
+import secureLocalStorage from 'react-secure-storage';
+
 import { BiHeart } from 'react-icons/bi';
 import { FaSearch } from 'react-icons/fa';
+import { BsPersonCircle } from 'react-icons/bs';
+import { AiOutlineCaretUp, AiOutlineCaretDown, AiOutlineCloseCircle } from 'react-icons/ai';
 
 
-import secureLocalStorage from 'react-secure-storage';
 
 const Navbar = () => {
   const searchDivRef = useRef();
@@ -43,7 +44,7 @@ const Navbar = () => {
   };
 
   const logout = () => {
-    secureLocalStorage.removeItem('u_id');
+    secureLocalStorage.clear()
     setisLoggedIn(false);
   };
 
@@ -221,12 +222,12 @@ function SearchResultsList({ results, setResults }) {
       {
         results.map((result, id) => {
           return (
-            <button className='w-full' onClick={() => setResults([])}>
-              <Link key={id} href={`/courses/${result.title}`}>
+            <button key={id} className='w-full' onClick={() => setResults([])}>
+              <a key={id} href={`/courses/${result.c_id}`}>
                 <div key={id} className='py-5 px-2 hover:bg-zinc-300 text-sky-600'>
                   {result.title}
                 </div>
-              </Link>
+              </a>
             </button>
           );
         })

@@ -10,9 +10,15 @@ import { Progress } from '@material-tailwind/react';
 import RateCourse from '@/components/RateCourse';
 
 const user = () => {
-  let userInfo;
   const inProgessRef = useRef();
   const completedRef = useRef();
+
+  const [nameValue, setNameValue] = useState("");
+  const [emailValue, setEmailValue] = useState("");
+  const [date_of_birthValue, setDate_of_birthValue] = useState("");
+  const [genderValue, setGenderValue] = useState("");
+  const [course_countValue, setCourse_countValue] = useState("");
+  const [reg_dateValue, setReg_dateValue] = useState("");
   const u_id = secureLocalStorage.getItem('u_id');
   const [inProgressCourses, setInProgressCourses] = useState([]);
   const [completedCourses, setCompletedCourses] = useState([]);
@@ -40,17 +46,15 @@ const user = () => {
     }).then((res) => {
       return res.json();
     }).then((json_res) => {
-      userInfo = json_res[0];
-      document.getElementById('name').innerHTML = userInfo.name;
-      document.getElementById('email').innerHTML = userInfo.email;
-      document.getElementById('dob').innerHTML = userInfo.date_of_birth;
-      if (userInfo.gender == 'M') {
-        document.getElementById('gender').innerHTML = 'Male';
-      } else {
-        document.getElementById('gender').innerHTML = 'Female';
-      }
-      document.getElementById('course_count').innerHTML = userInfo.course_count;
-      document.getElementById('reg_date').innerHTML = userInfo.reg_date;
+      const userInfo = json_res[0];
+
+      setNameValue(userInfo.name);
+      setEmailValue(userInfo.email);
+      setDate_of_birthValue(userInfo.date_of_birth);
+      setGenderValue(userInfo.gender === "M" ? "Male" : "Female");
+      setCourse_countValue(userInfo.course_count);
+      setReg_dateValue(userInfo.reg_date);
+
     });
     fetch('http://localhost:3000/api/user_courses', {
       method: 'POST',
@@ -76,27 +80,39 @@ const user = () => {
               <div className="sm:w-2/3 sm:px-24 sm:py-8 sm:pt-16 sm:border-l border-gray-200 sm:border-t-0 border-t mt-4 pt-4 sm:mt-0 text-center sm:text-left">
                 <div className="flex border-t border-gray-200 py-2">
                   <span className="text-gray-500">Name</span>
-                  <span className="ml-auto text-gray-900"><p id='name'></p></span>
+                  <span className="ml-auto text-gray-900">
+                    <p id="name">{nameValue}</p>
+                  </span>
                 </div>
                 <div className="flex border-t border-gray-200 py-2">
                   <span className="text-gray-500">Email</span>
-                  <span className="ml-auto text-gray-900"><p id='email'></p></span>
+                  <span className="ml-auto text-gray-900">
+                    <p id="email">{emailValue}</p>
+                  </span>
                 </div>
                 <div className="flex border-t border-gray-200 py-2">
                   <span className="text-gray-500">Date of Birth</span>
-                  <span className="ml-auto text-gray-900"><p id='dob'></p></span>
+                  <span className="ml-auto text-gray-900">
+                    <p id="dob">{date_of_birthValue}</p>
+                  </span>
                 </div>
                 <div className="flex border-t border-gray-200 py-2">
                   <span className="text-gray-500">Gender</span>
-                  <span className="ml-auto text-gray-900"><p id='gender'></p></span>
+                  <span className="ml-auto text-gray-900">
+                    <p id="gender">{genderValue}</p>
+                  </span>
                 </div>
                 <div className="flex border-t border-gray-200 py-2">
                   <span className="text-gray-500">Course Taken</span>
-                  <span className="ml-auto text-gray-900"><p id='course_count'></p></span>
+                  <span className="ml-auto text-gray-900">
+                    <p id="course_count">{course_countValue}</p>
+                  </span>
                 </div>
                 <div className="flex border-t border-b mb-6 border-gray-200 py-2">
                   <span className="text-gray-500">Registration date</span>
-                  <span className="ml-auto text-gray-900"><p id='reg_date'></p></span>
+                  <span className="ml-auto text-gray-900">
+                    <p id="reg_date">{reg_dateValue}</p>
+                  </span>
                 </div>
               </div>
             </div>
@@ -113,7 +129,7 @@ const user = () => {
       </nav>
       <div ref={inProgessRef} className="flex flex-wrap mx-28 my-4">
         {inProgressCourses.map((course) => {
-          return <div className='flex border border-gray-400 rounded-lg hover:shadow-md hover:shadow-slate-800 hover:bg-white h-40 w-full p-6 m-5'>
+          return <div key={course.c_id} className='flex border border-gray-400 rounded-lg hover:shadow-md hover:shadow-slate-800 hover:bg-white h-40 w-full p-6 m-5'>
             <div className='w-2/3 border-e-2 px-5 flex'>
               <div className='round rounded-md overflow-hidden'>
                 <Image src={CourseWall_1} alt='profile picture' priority='true' className='h-28 w-auto'></Image>
@@ -138,7 +154,7 @@ const user = () => {
                 </Link>
               </div>
               <div className='items-center justify-center flex'>
-                <RateCourse c_id={course.c_id}/>
+                <RateCourse c_id={course.c_id} />
               </div>
             </div>
           </div>;
@@ -146,7 +162,7 @@ const user = () => {
       </div>
       <div ref={completedRef} className="flex-wrap mx-28 my-4 hidden">
         {completedCourses.map((course) => {
-          return <div className='flex border border-gray-400 rounded-lg hover:shadow-md hover:shadow-slate-800 hover:bg-white h-40 w-full p-6 m-5'>
+          return <div key={course.c_id} className='flex border border-gray-400 rounded-lg hover:shadow-md hover:shadow-slate-800 hover:bg-white h-40 w-full p-6 m-5'>
             <div className='w-2/3 border-e-2 px-5 flex'>
               <div className='round rounded-md overflow-hidden'>
                 <Image src={CourseWall_2} alt='profile picture' priority='true' className='h-28 w-auto'></Image>
@@ -161,7 +177,7 @@ const user = () => {
             </div>
             <div className='w-1/3 px-5'>
               <div className='h-1/2 items-center justify-center flex'>
-                <a href={`/user/courses/${course.title}`}>
+                <a href={`/user/courses/${course.c_id}`}>
                   <div className='bg-blue-600 h-10 w-40 rounded-md flex items-center justify-center space-x-2 hover:bg-blue-700'>
                     <p className='text-white text-lg'>Go to course</p>
                     <HiArrowNarrowRight className='text-3xl text-white' />
