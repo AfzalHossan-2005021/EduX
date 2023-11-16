@@ -6,5 +6,3 @@ export default function get_selected_course_query(c_id){
         WHERE "Courses"."c_id" = '${c_id}'`
     );
 }
-
-
