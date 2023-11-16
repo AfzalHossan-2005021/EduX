@@ -29,12 +29,10 @@ const Navbar = () => {
   }, [isLoggedIn]);
 
   const toggleWishList = () => {
-    if (WishListRef.current.classList.contains("translate-x-full")) {
-      WishListRef.current.classList.remove("translate-x-full");
-      WishListRef.current.classList.add("translate-x-0");
-    } else if (!WishListRef.current.classList.contains("translate-x-full")) {
-      WishListRef.current.classList.remove("translate-x-0");
-      WishListRef.current.classList.add("translate-x-full");
+    if (WishListRef.current.classList.contains("hidden")) {
+      WishListRef.current.classList.remove("hidden");
+    } else if (!WishListRef.current.classList.contains("hidden")) {
+      WishListRef.current.classList.add("hidden");
     }
   };
 
@@ -47,7 +45,18 @@ const Navbar = () => {
   };
 
   const removeFromWishlist = (courseId) => {
-    const updatedWishlist = wishlistCourses.filter((c) => c.id !== courseId);
+    const u_id = secureLocalStorage.getItem("u_id");
+    fetch(`http://localhost:3000/api/remove_from_wishlist`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        u_id: u_id,
+        c_id: courseId,
+      }),
+    });
+    const updatedWishlist = wishlistCourses.filter((course) => course.c_id !== courseId);
     setWishlistCourses(updatedWishlist);
   };
 
@@ -55,7 +64,7 @@ const Navbar = () => {
     if (secureLocalStorage.getItem("u_id")) {
       setisLoggedIn(true);
 
-      fetch(`http://localhost:3000/api/wishlist`,{
+      fetch(`http://localhost:3000/api/wishlist`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -115,13 +124,12 @@ const Navbar = () => {
               userDropdownRef={userDropdownRef}
             />
           )}
+          <Wishlist
+            wishlistCourses={wishlistCourses}
+            onRemoveCourse={removeFromWishlist}
+            WishListRef={WishListRef}
+          />
         </div>
-        <Wishlist
-          wishlistCourses={wishlistCourses}
-          onRemoveCourse={removeFromWishlist}
-          WishListRef={WishListRef}
-          toggleWishList={toggleWishList}
-        />
       </div>
     </nav>
   );
