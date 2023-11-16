@@ -40,8 +40,6 @@ export default function userCourseInfo({ e_id }) {
     })
   };
 
-  console.log(selectedOptions);
-
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-semibold mb-4">MCQ Quiz</h1>

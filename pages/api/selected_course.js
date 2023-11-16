@@ -4,10 +4,10 @@ import get_selected_course_query from "@/db/get_selected_course_query";
 
 export default async function selected_course(req, res) {
 	const connection = await pool.acquire();
-    const title = req.body.slug
+    const c_id = req.body.c_id
 	try {
 		const result = await connection.execute(
-            get_selected_course_query(title),
+            get_selected_course_query(c_id),
 			[],
 			{ outFormat: oracledb.OUT_FORMAT_OBJECT }
 		);

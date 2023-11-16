@@ -1,5 +1,5 @@
 const get_all_courses =
-    `SELECT "title"
+    `SELECT "c_id", "title"
     FROM "Courses"`
 ;
 
