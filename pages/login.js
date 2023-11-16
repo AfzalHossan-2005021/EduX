@@ -29,7 +29,7 @@ export default function login() {
         secureLocalStorage.setItem("u_id", u_id);
         secureLocalStorage.setItem("u_email", email);
         secureLocalStorage.setItem("u_name", u_name);
-        router.replace("/user");
+        router.push("/user");
       } else {
         setIsErrorOccured(true);
         setError(message);
@@ -40,7 +40,7 @@ export default function login() {
   };
   useEffect(() => {
     if (secureLocalStorage.getItem("u_id")) {
-      router.replace("/user");
+      router.push("/user");
     }
     let handler = () => {
       if (isErrorOccured) {

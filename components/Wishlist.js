@@ -1,33 +1,30 @@
 import { AiOutlineCloseCircle } from "react-icons/ai";
 
-const Wishlist = ({
-  wishlistCourses,
-  onRemoveCourse,
-  WishListRef,
-  toggleWishList,
-}) => {
+const Wishlist = ({ wishlistCourses, onRemoveCourse, WishListRef }) => {
   return (
-    <div
-      ref={WishListRef}
-      className="sidebar absolute top-0 right-0 bg bg-emerald-500 p-10 transform transition-transform translate-x-full"
-    >
-      <h2 className="font-bold text-xl">Wishlist</h2>
-      <span
-        onClick={toggleWishList}
-        className="absolute top-2 right-2 cursor-pointer text-xl"
+    <div className="relative flex-col hidden md:order-2 pt-2" ref={WishListRef}>
+      <div
+        className="z-50 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
+        id="wishlist-dropdown"
       >
-        <AiOutlineCloseCircle />
-      </span>
-      <ul>
-        {wishlistCourses.map((course) => (
-          <li key={course.id}>
-            <span>{course.title}</span>
-            <button onClick={() => onRemoveCourse(course.id)}>
-              <AiOutlineCloseCircle />
-            </button>
-          </li>
-        ))}
-      </ul>
+        <ul className="p-2" aria-labelledby="user-menu-button">
+          {wishlistCourses.map((course) => (
+            <li key={course.id}>
+              <div className="flex flex-row hover:bg-gray-200">
+                <a
+                  href={`/courses/${course.c_id}`}
+                  className="block px-2 py-2 text-sm text-gray-700 dark:text-gray-200 dark:hover:text-white"
+                >
+                  {course.title}
+                </a>
+                <button className="ml-auto justify-between px-2" onClick={() => onRemoveCourse(course.c_id)}>
+                  <AiOutlineCloseCircle />
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

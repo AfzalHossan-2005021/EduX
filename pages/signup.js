@@ -44,7 +44,7 @@ export default function signup({ isLoggedIn, setIsLoggedIn }) {
       secureLocalStorage.setItem("u_id", u_id);
       secureLocalStorage.setItem("u_email", email);
       secureLocalStorage.setItem("u_name", name);
-      router.replace("/user");
+      router.push("/user");
     } else {
       setIsErrorOccured(true);
       setError("User already exists");
