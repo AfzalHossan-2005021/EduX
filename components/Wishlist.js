@@ -9,7 +9,7 @@ const Wishlist = ({ wishlistCourses, onRemoveCourse, WishListRef }) => {
       >
         <ul className="p-2" aria-labelledby="user-menu-button">
           {wishlistCourses.map((course) => (
-            <li key={course.id}>
+            <li key={course.c_id}>
               <div className="flex flex-row hover:bg-gray-200">
                 <a
                   href={`/courses/${course.c_id}`}
