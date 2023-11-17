@@ -1,13 +1,18 @@
+import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import secureLocalStorage from 'react-secure-storage';
-import { useRouter } from 'next/router';
+
+export const getServerSideProps = async (context) => {
+  const { params } = context
+  const { e_id } = params
+  return { props: { e_id } }
+}
 
 export default function userCourseInfo({ e_id }) {
   const router = useRouter();
   const s_id = secureLocalStorage.getItem('u_id');
   const [questions, setQuestions] = useState([]);
   const [selectedOptions, setSelectedOptions] = useState(new Array(5).fill(null));
-  const [score, setScore] = useState(null);
 
   useEffect(() => {
     fetch('http://localhost:3000/api/exam_questions', {
@@ -34,11 +39,10 @@ export default function userCourseInfo({ e_id }) {
         newScore += questions[i].marks;
       }
     }
-    setScore(newScore);
     fetch('http://localhost:3000/api/update_mark', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ s_id, e_id, score })
+      body: JSON.stringify({ s_id, e_id, score: newScore })
     }).then(() => {
       router.replace(`/user/courses/topic/exam/result/${e_id}`)
     });
@@ -80,12 +84,4 @@ export default function userCourseInfo({ e_id }) {
       </button>
     </div>
   );
-}
-
-
-
-export const getServerSideProps = async (context) => {
-  const { params } = context
-  const { e_id } = params
-  return { props: { e_id } }
 }
