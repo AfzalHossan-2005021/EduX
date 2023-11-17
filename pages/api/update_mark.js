@@ -5,6 +5,7 @@ export default async function handler(req, res) {
     if (req.method == 'POST') {
         const connection = await pool.acquire();
         const { s_id, e_id, score } = req.body;
+        console.log(s_id, e_id, score);
         try {
             const result = await connection.execute(
                 `BEGIN
