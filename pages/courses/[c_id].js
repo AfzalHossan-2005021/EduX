@@ -205,20 +205,19 @@ export default function course_page({ c_id }) {
           </div>
         </div>
       </section>
-      <section className="mt-8">
-        <h2 className="text-2xl font-semibold mb-4">Reviews</h2>
-        {reviews.map((review, index) => (
-          <Review
-            key={index}
-            reviewerName={review.name}
-            rating={review.rating}
-            comment={review.review}
-            date={review.date}
-          />
-        ))}
-        {/* Add a form or button to allow users to add their own reviews */}
-        {/* For simplicity, you can add a button that opens a modal or a form */}
-        {/* to submit a new review */}
+      <section className="mt-8 flex justify-center">
+        <div className="w-1/2">
+          <h2 className="text-2xl font-semibold mb-4">Reviews</h2>
+          {reviews.map((review, index) => (
+            <Review
+              key={index}
+              reviewerName={review.name}
+              rating={review.rating}
+              comment={review.review}
+              date={review.date}
+            />
+          ))}
+        </div>
       </section>
     </>
   );
