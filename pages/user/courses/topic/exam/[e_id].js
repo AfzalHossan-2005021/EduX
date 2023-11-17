@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import secureLocalStorage from 'react-secure-storage';
+import { useRouter } from 'next/router';
 
 export default function userCourseInfo({ e_id }) {
+  const router = useRouter();
   const s_id = secureLocalStorage.getItem('u_id');
   const [questions, setQuestions] = useState([]);
   const [selectedOptions, setSelectedOptions] = useState(new Array(5).fill(null));
@@ -37,7 +39,9 @@ export default function userCourseInfo({ e_id }) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ s_id, e_id, score })
-    })
+    }).then(() => {
+      router.replace(`/user/courses/topic/exam/result/${e_id}`)
+    });
   };
 
   return (
@@ -74,11 +78,6 @@ export default function userCourseInfo({ e_id }) {
       >
         Submit
       </button>
-      {score !== null && (
-        <div className="mt-4">
-          <h2 className="text-xl font-semibold">Your Score: {score} out of {questions.length}</h2>
-        </div>
-      )}
     </div>
   );
 }
